@@ -448,7 +448,7 @@ class Tracker:
             bbox_file = '{}.txt'.format(base_results_path)
             np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
 
-    def run_webcam(self, debug=None, visdom_info=None):
+    def run_webcam1(self, debug=None, visdom_info=None):
         """Run the tracker with the webcam.
         args:
             debug: Debug level.
