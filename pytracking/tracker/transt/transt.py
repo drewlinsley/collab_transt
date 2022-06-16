@@ -1,4 +1,5 @@
 # from pytracking.tracker.base import BaseTracker, SiameseTracker
+from pytracking.tracker.base import SiameseTracker
 import torch
 import torch.nn.functional as F
 import math
