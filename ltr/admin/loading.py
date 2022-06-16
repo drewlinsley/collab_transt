@@ -45,6 +45,7 @@ def load_network(network_dir=None, checkpoint=None, constructor_fun_name=None, c
     The extra keyword arguments are supplied to the network constructor to replace saved ones.
     """
 
+    print("Network_dir is {}".format(network_dir))
     if network_dir is not None:
         net_path = Path(network_dir)
     else:
@@ -52,6 +53,7 @@ def load_network(network_dir=None, checkpoint=None, constructor_fun_name=None, c
 
     if net_path.is_file():
         checkpoint = str(net_path)
+    print("Network_dir is {}".format(checkpoint))
 
     if checkpoint is None:
         # Load most recent checkpoint
