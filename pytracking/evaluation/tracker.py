@@ -402,7 +402,6 @@ class Tracker:
 
         # while True:
         #     ret, frame = cap.read()
-        import pdb;pdb.set_trace()
         for frame in frames:
 
             if frame is None:
@@ -448,15 +447,16 @@ class Tracker:
         # cap.release()
         # cv.destroyAllWindows()
 
-        if save_results:
-            if not os.path.exists(self.results_dir):
-                os.makedirs(self.results_dir)
-            video_name = Path(videofilepath).stem
-            base_results_path = os.path.join(self.results_dir, 'video_{}'.format(video_name))
+        return output_boxes
+        # if save_results:
+        #     if not os.path.exists(self.results_dir):
+        #         os.makedirs(self.results_dir)
+        #     video_name = Path(videofilepath).stem
+        #     base_results_path = os.path.join(self.results_dir, 'video_{}'.format(video_name))
 
-            tracked_bb = np.array(output_boxes).astype(int)
-            bbox_file = '{}.txt'.format(base_results_path)
-            np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
+        #     tracked_bb = np.array(output_boxes).astype(int)
+        #     bbox_file = '{}.txt'.format(base_results_path)
+        #     np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
 
     def run_webcam(self, debug=None, visdom_info=None):
         """Run the tracker with the webcam.
