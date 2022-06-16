@@ -46,6 +46,7 @@ class TransT(SiameseTracker):
         # Time initialization
         tic = time.time()
         bbox = info['init_bbox']
+        import pdb;pdb.set_trace()
         self.center_pos = np.array([bbox[0]+bbox[2]/2,
                                     bbox[1]+bbox[3]/2])
         self.size = np.array([bbox[2], bbox[3]])
