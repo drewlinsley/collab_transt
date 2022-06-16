@@ -29,7 +29,6 @@ class NetWrapper:
         return ret_val
 
     def load_network(self):
-        import pdb;pdb.set_trace()
         self.net = load_network(self.net_path, **self.net_kwargs)
         if self.use_gpu:
             self.cuda()
