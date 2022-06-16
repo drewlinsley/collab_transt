@@ -229,6 +229,102 @@ class Tracker:
 
         return output
 
+    def run_cell_video(self, videofilepath, optional_box=None, debug=None, visdom_info=None, save_results=False):
+        """Run the tracker with the vieofile.
+        args:
+            debug: Debug level.
+        """
+
+        params = self.get_parameters()
+
+        debug_ = debug
+        if debug is None:
+            debug_ = getattr(params, 'debug', 0)
+        params.debug = debug_
+
+        params.tracker_name = self.name
+        params.param_name = self.parameter_name
+        self._init_visdom(visdom_info, debug_)
+
+        multiobj_mode = getattr(params, 'multiobj_mode', getattr(self.tracker_class, 'multiobj_mode', 'default'))
+
+        if multiobj_mode == 'default':
+            tracker = self.create_tracker(params)
+            if hasattr(tracker, 'initialize_features'):
+                tracker.initialize_features()
+
+        elif multiobj_mode == 'parallel':
+            tracker = MultiObjectWrapper(self.tracker_class, params, self.visdom, fast_load=True)
+        else:
+            raise ValueError('Unknown multi object mode {}'.format(multiobj_mode))
+
+        assert os.path.isfile(videofilepath), "Invalid param {}".format(videofilepath)
+        ", videofilepath must be a valid videofile"
+
+        output_boxes = []
+
+        cap = cv.VideoCapture(videofilepath)
+        success, frame = cap.read()
+
+        # def _build_init_info(box):
+        #     return {'init_bbox': OrderedDict({1: box}), 'init_object_ids': [1, ], 'object_ids': [1, ],
+        #             'sequence_object_ids': [1, ]}
+        def _build_init_info(boxs):
+            bboxs = OrderedDict()
+            init_object_ids = []
+            object_ids = []
+            sequence_object_ids = []
+            for idx, box in enumerate(boxs):
+                idx += 1
+                bboxs[idx] = box
+                init_object_ids.append(idx)
+                object_ids.append(idx)
+                sequence_object_ids.append(idx)
+            return {'init_bbox': bboxs, "init_object_ids": init_object_ids, "object_ids": object_ids, "sequence_object_ids": sequence_object_ids}
+
+        if optional_box is not None:
+            # assert isinstance(optional_box, (list, tuple))
+            # assert len(optional_box) == 4, "valid box's foramt is [x,y,w,h]"
+            tracker.initialize(frame, _build_init_info(optional_box))
+            output_boxes.append(optional_box)
+        else:
+            raise RuntimeError("Must supply coords")
+
+        # Init tracker hidden states if needed
+        for trk in tracker.trackers.items():
+            trk = trk[1]
+            if hasattr(trk.net, "reset_states"):
+                trk.net.reset_states()
+
+        while True:
+            ret, frame = cap.read()
+
+            if frame is None:
+                break
+
+            frame_disp = frame.copy()
+
+            # Draw box
+            out = tracker.track(frame)
+            # state = [int(s) for s in out['target_bbox'][1]]
+            state = np.asarray([x[1] for x in out["target_bbox"].items()])
+            output_boxes.append(state)
+
+        # When everything done, release the capture
+        cap.release()
+        cv.destroyAllWindows()
+        tracked_bb = np.array(output_boxes)  # .astype(int)
+
+        if save_results:
+            if not os.path.exists(self.results_dir):
+                os.makedirs(self.results_dir)
+            video_name = Path(videofilepath).stem
+            base_results_path = os.path.join(self.results_dir, 'video_{}'.format(video_name))
+
+            bbox_file = '{}.txt'.format(base_results_path)
+            np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
+        return tracked_bb
+
     def run_video(self, videofilepath, optional_box=None, debug=None, visdom_info=None, save_results=False):
         """Run the tracker with the vieofile.
         args:
