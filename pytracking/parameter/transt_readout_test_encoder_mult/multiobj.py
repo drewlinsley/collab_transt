@@ -7,7 +7,7 @@ def parameters():
     params.visualization = True
     params.multiobj_mode = "parallel"
     params.use_gpu = True
-    params.net = NetWithBackbone(net_path='transt_mult.pth',
+    params.net = NetWithBackbone(net_path='transt.pth',
                                  use_gpu=params.use_gpu)
     return params
 
