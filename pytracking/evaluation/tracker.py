@@ -382,8 +382,8 @@ class Tracker:
         #     print("Read frame from {} failed.".format(videofilepath))
         #     exit(-1)
         if optional_box is not None:
-            assert isinstance(optional_box, (list, tuple))
-            assert len(optional_box) == 4, "valid box's foramt is [x,y,w,h]"
+            # assert isinstance(optional_box, (list, tuple))
+            # assert len(optional_box) == 4, "valid box's foramt is [x,y,w,h]"
             tracker.initialize(frame, _build_init_info(optional_box))
             output_boxes.append(optional_box)
         else:
