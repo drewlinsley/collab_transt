@@ -6,7 +6,7 @@ import time
 import numpy as np
 from pytracking.tracker.transt.config import cfg
 import torchvision.transforms.functional as tvisf
-from util.noise import apply_noise
+# from util.noise import apply_noise
 
 
 class TransT(SiameseTracker):
@@ -88,7 +88,7 @@ class TransT(SiameseTracker):
                                     cfg.TRACK.INSTANCE_SIZE,
                                     round(s_x), self.channel_average)
         x_crop = x_crop.float().mul(1.0 / 255.0).clamp(0.0, 1.0)
-        if noise:
+        if 0:  # noise:
             x_crop = apply_noise(x_crop, noise, noise_mag, frame_num=self.frame_num)
         x_crop[0] = tvisf.normalize(x_crop[0], self.mean, self.std, self.inplace)
 
