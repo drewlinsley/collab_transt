@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import math
 import time
 import numpy as np
-from pytracking.tracker.transt.config import cfg
+from pytracking.tracker.transt_readout_test_encoder_mult.config import cfg
 import torchvision.transforms.functional as tvisf
 # from util.noise import apply_noise
 

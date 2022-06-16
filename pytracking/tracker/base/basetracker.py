@@ -1,5 +1,5 @@
 from _collections import OrderedDict
-from pytracking.tracker.transt.config import cfg
+# from pytracking.tracker.transt.config import cfg
 import cv2
 import numpy as np
 import torch
