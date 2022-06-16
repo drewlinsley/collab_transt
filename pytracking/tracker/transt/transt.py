@@ -1,10 +1,9 @@
-# from pytracking.tracker.base import BaseTracker, SiameseTracker
-from pytracking.tracker.base.basetracker import BaseTracker, SiameseTracker
 import torch
 import torch.nn.functional as F
 import math
 import time
 import numpy as np
+from pytracking.tracker.base.basetracker import BaseTracker, SiameseTracker
 from pytracking.tracker.transt.config import cfg
 import torchvision.transforms.functional as tvisf
 
