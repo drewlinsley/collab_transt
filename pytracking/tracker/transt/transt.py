@@ -57,6 +57,7 @@ class TransT(SiameseTracker):
         self.channel_average = np.mean(image, axis=(0, 1))
 
         # get crop
+        import pdb;pdb.set_trace()
         z_crop = self.get_subwindow(image, self.center_pos,
                                     cfg.TRACK.EXEMPLAR_SIZE,
                                     s_z, self.channel_average)
