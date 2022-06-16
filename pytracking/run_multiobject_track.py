@@ -55,8 +55,7 @@ def run_video(tracker_name, tracker_param, videofile, detections, output_dir, op
     output_file = output_dir + name.tolist()[0]
 
     # tracks = []
-    import pdb;pdb.set_trace()
-    tracks = tracker.run_nfl(videofilepath=videofile, optional_box=hcsv, debug=debug, save_results=False)
+    tracks = tracker.run_cell_video(videofilepath=videofile, optional_box=hcsv, debug=debug, save_results=False)
     # for helmet in tqdm(hcsv, total=len(hcsv)):
     #     # Now run tracker for each detection
     #     helmet = tuple(helmet)
