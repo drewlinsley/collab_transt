@@ -263,8 +263,10 @@ class Tracker:
 
         output_boxes = []
 
-        cap = cv.VideoCapture(videofilepath)
-        success, frame = cap.read()
+        frames = np.load(videofilepath)
+        # cap = cv.VideoCapture(videofilepath)
+        # success, frame = cap.read()
+        frame = frames[0]
 
         # def _build_init_info(box):
         #     return {'init_bbox': OrderedDict({1: box}), 'init_object_ids': [1, ], 'object_ids': [1, ],
@@ -296,8 +298,9 @@ class Tracker:
             if hasattr(trk.net, "reset_states"):
                 trk.net.reset_states()
 
-        while True:
-            ret, frame = cap.read()
+        for frame in frames:
+        # while True:
+        #     ret, frame = cap.read()
 
             if frame is None:
                 break
@@ -359,12 +362,17 @@ class Tracker:
 
         output_boxes = []
 
-        cap = cv.VideoCapture(videofilepath)
-        display_name = 'Display: ' + tracker.params.tracker_name
-        cv.namedWindow(display_name, cv.WINDOW_NORMAL | cv.WINDOW_KEEPRATIO)
-        cv.resizeWindow(display_name, 960, 720)
-        success, frame = cap.read()
-        cv.imshow(display_name, frame)
+        # cap = cv.VideoCapture(videofilepath)
+        frames = np.load(videofilepath)
+        # cap = cv.VideoCapture(videofilepath)
+        # success, frame = cap.read()
+        frame = frames[0]
+
+        # display_name = 'Display: ' + tracker.params.tracker_name
+        # cv.namedWindow(display_name, cv.WINDOW_NORMAL | cv.WINDOW_KEEPRATIO)
+        # cv.resizeWindow(display_name, 960, 720)
+        # # success, frame = cap.read()
+        # cv.imshow(display_name, frame)
 
         def _build_init_info(box):
             return {'init_bbox': OrderedDict({1: box}), 'init_object_ids': [1, ], 'object_ids': [1, ],
@@ -392,51 +400,52 @@ class Tracker:
                 output_boxes.append(init_state)
                 break
 
-        while True:
-            ret, frame = cap.read()
+        # while True:
+        #     ret, frame = cap.read()
+        for frame in frames:
 
             if frame is None:
                 break
 
-            frame_disp = frame.copy()
+            # frame_disp = frame.copy()
 
             # Draw box
             out = tracker.track(frame)
             state = [int(s) for s in out['target_bbox'][1]]
             output_boxes.append(state)
 
-            cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
-                         (0, 255, 0), 5)
+            # cv.rectangle(frame_disp, (state[0], state[1]), (state[2] + state[0], state[3] + state[1]),
+            #              (0, 255, 0), 5)
 
-            font_color = (0, 0, 0)
-            cv.putText(frame_disp, 'Tracking!', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
-                       font_color, 1)
-            cv.putText(frame_disp, 'Press r to reset', (20, 55), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
-                       font_color, 1)
-            cv.putText(frame_disp, 'Press q to quit', (20, 80), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
-                       font_color, 1)
+            # font_color = (0, 0, 0)
+            # cv.putText(frame_disp, 'Tracking!', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
+            #            font_color, 1)
+            # cv.putText(frame_disp, 'Press r to reset', (20, 55), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
+            #            font_color, 1)
+            # cv.putText(frame_disp, 'Press q to quit', (20, 80), cv.FONT_HERSHEY_COMPLEX_SMALL, 1,
+            #            font_color, 1)
 
             # Display the resulting frame
-            cv.imshow(display_name, frame_disp)
-            key = cv.waitKey(1)
-            if key == ord('q'):
-                break
-            elif key == ord('r'):
-                ret, frame = cap.read()
-                frame_disp = frame.copy()
+            # cv.imshow(display_name, frame_disp)
+            # key = cv.waitKey(1)
+            # if key == ord('q'):
+            #     break
+            # elif key == ord('r'):
+            #     ret, frame = cap.read()
+            #     frame_disp = frame.copy()
 
-                cv.putText(frame_disp, 'Select target ROI and press ENTER', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
-                           (0, 0, 0), 1)
+            #     cv.putText(frame_disp, 'Select target ROI and press ENTER', (20, 30), cv.FONT_HERSHEY_COMPLEX_SMALL, 1.5,
+            #                (0, 0, 0), 1)
 
-                cv.imshow(display_name, frame_disp)
-                x, y, w, h = cv.selectROI(display_name, frame_disp, fromCenter=False)
-                init_state = [x, y, w, h]
-                tracker.initialize(frame, _build_init_info(init_state))
-                output_boxes.append(init_state)
+            #     cv.imshow(display_name, frame_disp)
+            #     x, y, w, h = cv.selectROI(display_name, frame_disp, fromCenter=False)
+            #     init_state = [x, y, w, h]
+            #     tracker.initialize(frame, _build_init_info(init_state))
+            #     output_boxes.append(init_state)
 
         # When everything done, release the capture
-        cap.release()
-        cv.destroyAllWindows()
+        # cap.release()
+        # cv.destroyAllWindows()
 
         if save_results:
             if not os.path.exists(self.results_dir):
@@ -448,7 +457,7 @@ class Tracker:
             bbox_file = '{}.txt'.format(base_results_path)
             np.savetxt(bbox_file, tracked_bb, delimiter='\t', fmt='%d')
 
-    def run_webcam1(self, debug=None, visdom_info=None):
+    def run_webcam(self, debug=None, visdom_info=None):
         """Run the tracker with the webcam.
         args:
             debug: Debug level.
