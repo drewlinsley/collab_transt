@@ -72,5 +72,5 @@ class NetWithBackbone(NetWrapper):
     def template(self, z):
         self.net.template(z)
 
-    def track(self, image):
-        return self.net.track(image)
+    def track(self, image, bumps, info):
+        return self.net.track(image, bumps, info)
