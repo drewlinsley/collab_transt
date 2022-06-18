@@ -4,9 +4,9 @@ import torch.nn.functional as F
 import math
 import time
 import numpy as np
-from pytracking.tracker.transt_readout_test_encoder_mult.config import cfg
+from pytracking.tracker.transt.config import cfg
 import torchvision.transforms.functional as tvisf
-# from util.noise import apply_noise
+from util.noise import apply_noise
 
 
 class TransT(SiameseTracker):
@@ -46,7 +46,6 @@ class TransT(SiameseTracker):
         # Time initialization
         tic = time.time()
         bbox = info['init_bbox']
-        import pdb;pdb.set_trace()
         self.center_pos = np.array([bbox[0]+bbox[2]/2,
                                     bbox[1]+bbox[3]/2])
         self.size = np.array([bbox[2], bbox[3]])
@@ -81,6 +80,7 @@ class TransT(SiameseTracker):
         height = max(10, min(height, boundary[0]))
         return cx, cy, width, height
 
+
     def track(self, image, info: dict = None, noise=None, noise_mag=None) -> dict:
         w_x = self.size[0] + (4 - 1) * ((self.size[0] + self.size[1]) * 0.5)
         h_x = self.size[1] + (4 - 1) * ((self.size[0] + self.size[1]) * 0.5)
@@ -89,7 +89,7 @@ class TransT(SiameseTracker):
                                     cfg.TRACK.INSTANCE_SIZE,
                                     round(s_x), self.channel_average)
         x_crop = x_crop.float().mul(1.0 / 255.0).clamp(0.0, 1.0)
-        if 0:  # noise:
+        if noise:
             x_crop = apply_noise(x_crop, noise, noise_mag, frame_num=self.frame_num)
         x_crop[0] = tvisf.normalize(x_crop[0], self.mean, self.std, self.inplace)
 
@@ -130,10 +130,9 @@ class TransT(SiameseTracker):
         # penalty = np.exp(-(r_c * s_c - 1) * cfg.TRACK.PENALTY_K)
         # pscore = penalty * score
 
-        # # window penalty
+        # window penalty
         pscore = score * (1 - cfg.TRACK.WINDOW_INFLUENCE) + \
                  self.window * cfg.TRACK.WINDOW_INFLUENCE
-        # pscore = score * (1 - 0.9) + self.window * 0.9
         # pscore = score
         best_idx = np.argmax(pscore)
 

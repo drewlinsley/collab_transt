@@ -11,6 +11,7 @@ from util.misc import (NestedTensor, nested_tensor_from_tensor,
 from ltr.models.backbone.transt_backbone import build_backbone
 from ltr.models.loss.matcher import build_matcher
 from ltr.models.neck.featurefusion_network import build_featurefusion_network
+from ltr.admin.loading import load_weights
 
 
 class TransT(nn.Module):
@@ -26,13 +27,15 @@ class TransT(nn.Module):
         super().__init__()
         self.featurefusion_network = featurefusion_network
         hidden_dim = featurefusion_network.d_model
-        self.class_embed = MLP(hidden_dim, hidden_dim, num_classes + 1, 3)
-        self.bbox_embed = MLP(hidden_dim, hidden_dim, 4, 3)
+        self.new_class_embed = MLP(hidden_dim, hidden_dim, num_classes + 1, 3)
+        self.new_bbox_embed = MLP(hidden_dim, hidden_dim, 4, 3)
+        self.height = 32
+        self.hidden_dim = hidden_dim
         self.input_proj = nn.Conv2d(backbone.num_channels, hidden_dim, kernel_size=1)
         self.backbone = backbone
 
-    def forward(self, search, template):
-        """ The forward expects a NestedTensor, which consists of:
+    def forward(self, search, template, samp_idx=None, labels=None, settings=None):
+        """ The forward expects a NestedTensor, which consists of:
                - search.tensors: batched images, of shape [batch_size x 3 x H_search x W_search]
                - search.mask: a binary mask of shape [batch_size x H_search x W_search], containing 1 on padded pixels
                - template.tensors: batched images, of shape [batch_size x 3 x H_template x W_template]
@@ -58,12 +61,12 @@ class TransT(nn.Module):
         assert mask_template is not None
         hs = self.featurefusion_network(self.input_proj(src_template), mask_template, self.input_proj(src_search), mask_search, pos_template[-1], pos_search[-1])
 
-        outputs_class = self.class_embed(hs)
-        outputs_coord = self.bbox_embed(hs).sigmoid()
+        outputs_class = self.new_class_embed(hs)
+        outputs_coord = self.new_bbox_embed(hs).sigmoid()
         out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1]}
         return out
 
-    def track(self, search):
+    def track(self, search, bumps=None, info=None):
         if not isinstance(search, NestedTensor):
             search = nested_tensor_from_tensor_2(search)
         features_search, pos_search = self.backbone(search)
@@ -75,12 +78,19 @@ class TransT(nn.Module):
         assert mask_template is not None
         hs = self.featurefusion_network(self.input_proj(src_template), mask_template, self.input_proj(src_search), mask_search, pos_template[-1], pos_search[-1])
 
-        outputs_class = self.class_embed(hs)
-        outputs_coord = self.bbox_embed(hs).sigmoid()
+        outputs_class = self.new_class_embed(hs)
+        outputs_coord = self.new_bbox_embed(hs).sigmoid()
         out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1]}
-        return out
+        return_activities = info.get("return_activities", False)
+        if return_activities:
+            activities = {
+                "transformer": -hs.squeeze().view(1, self.height, self.height, self.hidden_dim).permute(0, 3, 1, 2).squeeze().mean(0).detach().cpu(),
+            }
+            return out, activities
+        else:
+            return out        
 
-    def template(self, z):
+    def template(self, z, **kwargs):
         if not isinstance(z, NestedTensor):
             z = nested_tensor_from_tensor_2(z)
         zf, pos_template = self.backbone(z)
@@ -231,6 +241,9 @@ def transt_resnet50(settings):
     )
     device = torch.device(settings.device)
     model.to(device)
+    # if hasattr(settings, "init_ckpt") and settings.init_ckpt:
+    #     print("Initializing from settings.init_ckpt")
+    #     model = load_weights(model, settings.init_ckpt, strict=True)
     return model
 
 def transt_loss(settings):
