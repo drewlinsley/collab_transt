@@ -182,14 +182,14 @@ class TransT(nn.Module):
             exc_1, td_inh_1 = self.circuit_td_1(pre_exc_1, excitation=res_hs, inhibition=td_inh_1, activ=self.cnl)
 
 
-            # if t > 0:
-            #     from matplotlib import pyplot as plt
-            #     plt.subplot(151);plt.imshow(search[0, t].squeeze().permute(1, 2, 0).cpu());
-            #     plt.subplot(152);plt.imshow((src_search[0, t].squeeze()).mean(0).detach().cpu());
-            #     plt.subplot(153);plt.title("Circuit-Transformer agreement", fontsize=6);plt.imshow((rnn_gate[0]).squeeze().detach().cpu().mean(0))
-            #     plt.subplot(154);plt.imshow(-(((prev_hs[0])).squeeze().mean(0).detach().cpu()));plt.title("Circuit Modulation", fontsize=6);
-            #     plt.subplot(155);plt.title("Transformer", fontsize=6);plt.imshow((-hs[0, 0].squeeze().view(1, self.height, self.height, self.hidden_dim).permute(0, 3, 1, 2)).squeeze().mean(0).detach().cpu());  # plt.show()
-            #     plt.show()
+            if t > 0:
+                from matplotlib import pyplot as plt
+                plt.subplot(151);plt.imshow(search[0, t].squeeze().permute(1, 2, 0).cpu());
+                plt.subplot(152);plt.imshow((src_search[0, t].squeeze()).mean(0).detach().cpu());
+                plt.subplot(153);plt.title("Circuit-Transformer agreement", fontsize=6);plt.imshow((rnn_gate[0]).squeeze().detach().cpu().mean(0))
+                plt.subplot(154);plt.imshow(-(((prev_hs[0])).squeeze().mean(0).detach().cpu()));plt.title("Circuit Modulation", fontsize=6);
+                plt.subplot(155);plt.title("Transformer", fontsize=6);plt.imshow((-hs[0, 0].squeeze().view(1, self.height, self.height, self.hidden_dim).permute(0, 3, 1, 2)).squeeze().mean(0).detach().cpu());  # plt.show()
+                plt.show()
 
             # if t > src_search.shape[1] - 5:
             #     plt.subplot(141);plt.title("Resnet");plt.imshow(search[0, t].squeeze().permute(1, 2, 0).cpu());plt.title("L1");plt.subplot(142);plt.imshow((pre_exc_1[0] ** 2).squeeze().mean(0).detach().cpu());plt.subplot(143);plt.title("L2");plt.imshow((exc_2[0] ** 2).squeeze().mean(0).detach().cpu());plt.subplot(144);plt.title("L1 after TD");plt.imshow((exc_1[0] ** 2).squeeze().mean(0).detach().cpu());
