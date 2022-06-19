@@ -68,23 +68,26 @@ class SiameseTracker(BaseTracker):
         context_ymax = context_ymax + top_pad
 
         r, c, k = im.shape
-        if any([top_pad, bottom_pad, left_pad, right_pad]):
-            size = (r + top_pad + bottom_pad, c + left_pad + right_pad, k)
-            te_im = np.zeros(size, np.uint8)
-            te_im[top_pad:top_pad + r, left_pad:left_pad + c, :] = im
-            if top_pad:
-                te_im[0:top_pad, left_pad:left_pad + c, :] = avg_chans
-            if bottom_pad:
-                te_im[r + top_pad:, left_pad:left_pad + c, :] = avg_chans
-            if left_pad:
-                te_im[:, 0:left_pad, :] = avg_chans
-            if right_pad:
-                te_im[:, c + left_pad:, :] = avg_chans
-            im_patch = te_im[int(context_ymin):int(context_ymax + 1),
-                       int(context_xmin):int(context_xmax + 1), :]
-        else:
-            im_patch = im[int(context_ymin):int(context_ymax + 1),
-                       int(context_xmin):int(context_xmax + 1), :]
+        try:
+            if any([top_pad, bottom_pad, left_pad, right_pad]):
+                size = (r + top_pad + bottom_pad, c + left_pad + right_pad, k)
+                te_im = np.zeros(size, np.uint8)
+                te_im[top_pad:top_pad + r, left_pad:left_pad + c, :] = im
+                if top_pad:
+                    te_im[0:top_pad, left_pad:left_pad + c, :] = avg_chans
+                if bottom_pad:
+                    te_im[r + top_pad:, left_pad:left_pad + c, :] = avg_chans
+                if left_pad:
+                    te_im[:, 0:left_pad, :] = avg_chans
+                if right_pad:
+                    te_im[:, c + left_pad:, :] = avg_chans
+                im_patch = te_im[int(context_ymin):int(context_ymax + 1),
+                           int(context_xmin):int(context_xmax + 1), :]
+            else:
+                im_patch = im[int(context_ymin):int(context_ymax + 1),
+                           int(context_xmin):int(context_xmax + 1), :]
+        except:
+            import pdb;pdb.set_trace()
 
         if not np.array_equal(model_sz, original_sz):
             im_patch = cv2.resize(im_patch, (model_sz, model_sz))
