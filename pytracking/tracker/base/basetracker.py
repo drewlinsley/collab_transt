@@ -68,7 +68,6 @@ class SiameseTracker(BaseTracker):
         context_ymax = context_ymax + top_pad
 
         r, c, k = im.shape
-        import pdb;pdb.set_trace()
         if any([top_pad, bottom_pad, left_pad, right_pad]):
             size = (r + top_pad + bottom_pad, c + left_pad + right_pad, k)
             te_im = np.zeros(size, np.uint8)
@@ -89,6 +88,8 @@ class SiameseTracker(BaseTracker):
 
         if not np.array_equal(model_sz, original_sz):
             im_patch = cv2.resize(im_patch, (model_sz, model_sz))
+        if not len(im_patch.shape) == 3:
+            im_patch = im_patch[..., None]
         im_patch = im_patch.transpose(2, 0, 1)
         im_patch = im_patch[np.newaxis, :, :, :]
         im_patch = im_patch.astype(np.float32)
