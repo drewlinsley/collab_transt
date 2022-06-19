@@ -25,7 +25,7 @@ __C.TRACK.PENALTY_K = 0
 __C.TRACK.WINDOW_INFLUENCE = 0.60
 
 # Exemplar size
-__C.TRACK.EXEMPLAR_SIZE = 64
+__C.TRACK.EXEMPLAR_SIZE = 128
 import pdb;pdb.set_trace()
 # Instance size
-__C.TRACK.INSTANCE_SIZE = 96
+__C.TRACK.INSTANCE_SIZE = 256
