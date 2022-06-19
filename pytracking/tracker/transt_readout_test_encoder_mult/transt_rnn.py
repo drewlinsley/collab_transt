@@ -99,6 +99,7 @@ class TransT(SiameseTracker):
         box = [int(x) for x in self.bbox]
         bumps[box[1]: box[1] + box[3], box[0]: box[0] + box[2]] = 1
         bumps = bumps[..., None]
+        print(cfg.TRACK.INSTANCE_SIZE)
         bumps = self.get_subwindow(bumps, self.center_pos,
                                     cfg.TRACK.INSTANCE_SIZE,
                                     round(s_x), None)
