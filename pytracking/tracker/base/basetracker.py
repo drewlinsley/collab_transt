@@ -68,6 +68,7 @@ class SiameseTracker(BaseTracker):
         context_ymax = context_ymax + top_pad
 
         r, c, k = im.shape
+        import pdb;pdb.set_trace()
         if any([top_pad, bottom_pad, left_pad, right_pad]):
             size = (r + top_pad + bottom_pad, c + left_pad + right_pad, k)
             te_im = np.zeros(size, np.uint8)
