@@ -400,8 +400,10 @@ class Tracker:
                 tracker.initialize(frame, _build_init_info(init_state))
                 output_boxes.append(init_state)
                 break
-        if hasattr(tracker.net, "reset_states"):
-            tracker.net.reset_states()
+        for trk in tracker.trackers.items():
+            trk = trk[1]
+            if hasattr(trk.net, "reset_states"):
+                trk.net.reset_states()
 
         # while True:
         #     ret, frame = cap.read()
