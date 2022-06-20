@@ -26,6 +26,6 @@ __C.TRACK.WINDOW_INFLUENCE = 0.60
 
 # Exemplar size
 __C.TRACK.EXEMPLAR_SIZE = 128
-import pdb;pdb.set_trace()
+
 # Instance size
 __C.TRACK.INSTANCE_SIZE = 256
