@@ -417,11 +417,10 @@ class Tracker:
             # Draw box
             out = tracker.track(frame)
             state = [int(s) for s in out['target_bbox'][1]]
-            import pdb;pdb.set_trace()
             output_boxes.append(state)
 
             # If the tracker box confidence is < threshold, kill the tracker
-
+            print(out["best_score"][1].max())
 
         return output_boxes
         # if save_results:
