@@ -112,7 +112,6 @@ class TransT(SiameseTracker):
             # outputs = self.net.track(x_crop, bumps, info=info)
             outputs, fmaps = self.net.track(x_crop, bumps, info=info)
 
-        import pdb;pdb.set_trace()
         score = self._convert_score(outputs['pred_logits'])
         pred_bbox = self._convert_bbox(outputs['pred_boxes'])
 
