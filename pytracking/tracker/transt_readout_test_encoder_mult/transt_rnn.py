@@ -165,6 +165,7 @@ class TransT(SiameseTracker):
 
         # print(bbox)
         out = {'target_bbox': bbox,
-               'best_score': pscore}
+               'best_score': pscore,
+               'max_score': score}
         self.frame_num += 1
         return out
