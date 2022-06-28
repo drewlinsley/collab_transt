@@ -420,7 +420,7 @@ class Tracker:
             output_boxes.append(state)
 
             # If the tracker box confidence is < threshold, kill the tracker
-            print({k: max(v) for k, v in out["max_score"].items()})
+            print({k: max(v) for k, v in out["max_score"].items()}, state)
 
         return output_boxes
         # if save_results:
