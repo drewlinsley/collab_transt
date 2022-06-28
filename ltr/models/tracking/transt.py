@@ -77,6 +77,7 @@ class TransT(nn.Module):
         src_template, mask_template = feature_template[-1].decompose()
         assert mask_template is not None
         hs = self.featurefusion_network(self.input_proj(src_template), mask_template, self.input_proj(src_search), mask_search, pos_template[-1], pos_search[-1])
+        import pdb;pdb.set_trace()
 
         outputs_class = self.new_class_embed(hs)
         outputs_coord = self.new_bbox_embed(hs).sigmoid()
