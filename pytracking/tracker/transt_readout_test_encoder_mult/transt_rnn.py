@@ -105,6 +105,8 @@ class TransT(SiameseTracker):
         bumps = bumps.squeeze()[None, None].float()
         # if self.frame_num % self.net.timesteps == 0:
         #     self.net.force_reset(bumps)
+        info = {}
+        info["return_activities"] = True
 
         with torch.no_grad():
             # outputs = self.net.track(x_crop, bumps, info=info)

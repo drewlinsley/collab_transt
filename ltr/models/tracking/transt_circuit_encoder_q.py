@@ -314,10 +314,8 @@ class TransT(nn.Module):
         # Concat exc to hs too
         outputs_class = self.class_embed(hs)
         outputs_coord = self.bbox_embed(hs).sigmoid()
-        import pdb;pdb.set_trace()
 
         out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1]}
-
         return_activities = info.get("return_activities", False)
         if return_activities:
             activities = {
