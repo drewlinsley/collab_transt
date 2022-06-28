@@ -76,7 +76,7 @@ class TransT(SiameseTracker):
         height = max(10, min(height, boundary[0]))
         return cx, cy, width, height
 
-    def track(self, image, info: dict = None) -> dict:
+    def track(self, image, info: dict = None, noise=None, noise_mag=None) -> dict:
         w_x = self.size[0] + (4 - 1) * ((self.size[0] + self.size[1]) * 0.5)
         h_x = self.size[1] + (4 - 1) * ((self.size[0] + self.size[1]) * 0.5)
         s_x = math.ceil(math.sqrt(w_x * h_x))
@@ -86,7 +86,7 @@ class TransT(SiameseTracker):
                                     round(s_x), self.channel_average)
         x_crop = x_crop.float().mul(1.0 / 255.0).clamp(0.0, 1.0)
         x_crop[0] = tvisf.normalize(x_crop[0], self.mean, self.std, self.inplace)
-        outputs = self.net.track(x_crop)
+        outputs = self.net.track(x_crop, None, None)
         score = self._convert_score(outputs['pred_logits'])
         pred_bbox = self._convert_bbox(outputs['pred_boxes'])
 
