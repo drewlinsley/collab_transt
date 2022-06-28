@@ -108,7 +108,7 @@ class TransT(SiameseTracker):
 
         with torch.no_grad():
             # outputs = self.net.track(x_crop, bumps, info=info)
-            outputs, maps = self.net.track(x_crop, bumps, info=info)
+            outputs, fmaps = self.net.track(x_crop, bumps, info=info)
 
         import pdb;pdb.set_trace()
         score = self._convert_score(outputs['pred_logits'])

@@ -204,6 +204,7 @@ class TransT(nn.Module):
             excs.append(exc_1)  # Also try exc_1?
 
         # Concat exc to hs too
+        import pdb;pdb.set_trace()
         outputs_class = self.class_embed(hs)
         outputs_coord = self.bbox_embed(hs).sigmoid()
         excs = torch.stack(excs, 2)
