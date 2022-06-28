@@ -86,7 +86,7 @@ class TransT(SiameseTracker):
                                     round(s_x), self.channel_average)
         x_crop = x_crop.float().mul(1.0 / 255.0).clamp(0.0, 1.0)
         x_crop[0] = tvisf.normalize(x_crop[0], self.mean, self.std, self.inplace)
-        outputs = self.net.track(x_crop, None, None)
+        outputs = self.net.track(x_crop, None, {})
         score = self._convert_score(outputs['pred_logits'])
         pred_bbox = self._convert_bbox(outputs['pred_boxes'])
 
