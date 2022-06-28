@@ -19,13 +19,15 @@ __C.TRACK = CN()
 __C.TRACK.TYPE = ''
 
 # Scale penalty
-__C.TRACK.PENALTY_K = 0
+__C.TRACK.PENALTY_K = 0.1
 
 # Window influence
-__C.TRACK.WINDOW_INFLUENCE = 0.60
+__C.TRACK.WINDOW_INFLUENCE = 0.80
 
 # Exemplar size
 __C.TRACK.EXEMPLAR_SIZE = 128
 
 # Instance size
 __C.TRACK.INSTANCE_SIZE = 256
+
+print(__C)
