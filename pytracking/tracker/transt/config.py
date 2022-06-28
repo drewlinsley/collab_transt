@@ -19,7 +19,7 @@ __C.TRACK = CN()
 __C.TRACK.TYPE = ''
 
 # Scale penalty
-__C.TRACK.PENALTY_K = 0.1
+__C.TRACK.PENALTY_K = 0
 
 # Window influence
 __C.TRACK.WINDOW_INFLUENCE = 0.80
