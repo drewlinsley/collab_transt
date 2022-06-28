@@ -418,7 +418,7 @@ class Tracker:
             out = tracker.track(frame)
             state = [int(s) for s in out['target_bbox'][1]]
             if out["max_score"][1].max() < 0.9:
-                continue
+                return output_boxes
 
             output_boxes.append(state)
 
