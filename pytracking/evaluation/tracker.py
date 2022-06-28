@@ -420,6 +420,7 @@ class Tracker:
             output_boxes.append(state)
 
             # If the tracker box confidence is < threshold, kill the tracker
+            import pdb;pdb.set_trace()
             print(out["max_score"][1].max())
 
         return output_boxes
