@@ -115,22 +115,22 @@ class TransT(SiameseTracker):
         score = self._convert_score(outputs['pred_logits'])
         pred_bbox = self._convert_bbox(outputs['pred_boxes'])
 
-        def change(r):
-            return np.maximum(r, 1. / r)
+        # def change(r):
+        #     return np.maximum(r, 1. / r)
         
-        def sz(w, h):
-            pad = (w + h) * 0.5
-            return np.sqrt((w + pad) * (h + pad))
-        # pred_box:cx,cy,w,h
-        # scale penalty
-        s_c = change(sz(pred_bbox[2, :], pred_bbox[3, :]) /
-                     (sz(self.size[0]/s_x, self.size[1]/s_x)))
+        # def sz(w, h):
+        #     pad = (w + h) * 0.5
+        #     return np.sqrt((w + pad) * (h + pad))
+        # # pred_box:cx,cy,w,h
+        # # scale penalty
+        # s_c = change(sz(pred_bbox[2, :], pred_bbox[3, :]) /
+        #              (sz(self.size[0]/s_x, self.size[1]/s_x)))
         
-        # aspect ratio penalty
-        r_c = change((self.size[0]/self.size[1]) /
-                     (pred_bbox[2, :]/pred_bbox[3, :]))
-        penalty = np.exp(-(r_c * s_c - 1) * cfg.TRACK.PENALTY_K)
-        score = penalty * score
+        # # aspect ratio penalty
+        # r_c = change((self.size[0]/self.size[1]) /
+        #              (pred_bbox[2, :]/pred_bbox[3, :]))
+        # penalty = np.exp(-(r_c * s_c - 1) * cfg.TRACK.PENALTY_K)
+        # score = penalty * score
 
         # window penalty
         pscore = score * (1 - cfg.TRACK.WINDOW_INFLUENCE) + \
