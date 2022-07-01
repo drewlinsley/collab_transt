@@ -122,15 +122,15 @@ class TransT(SiameseTracker):
         #     pad = (w + h) * 0.5
         #     return np.sqrt((w + pad) * (h + pad))
         # # pred_box:cx,cy,w,h
-        # # scale penalty
-        # s_c = change(sz(pred_bbox[2, :], pred_bbox[3, :]) /
-        #              (sz(self.size[0]/s_x, self.size[1]/s_x)))
-        #
-        # # aspect ratio penalty
-        # r_c = change((self.size[0]/self.size[1]) /
-        #              (pred_bbox[2, :]/pred_bbox[3, :]))
-        # penalty = np.exp(-(r_c * s_c - 1) * cfg.TRACK.PENALTY_K)
-        # pscore = penalty * score
+        # scale penalty
+        s_c = change(sz(pred_bbox[2, :], pred_bbox[3, :]) /
+                     (sz(self.size[0]/s_x, self.size[1]/s_x)))
+        
+        # aspect ratio penalty
+        r_c = change((self.size[0]/self.size[1]) /
+                     (pred_bbox[2, :]/pred_bbox[3, :]))
+        penalty = np.exp(-(r_c * s_c - 1) * cfg.TRACK.PENALTY_K)
+        score = penalty * score
 
         # window penalty
         pscore = score * (1 - cfg.TRACK.WINDOW_INFLUENCE) + \
