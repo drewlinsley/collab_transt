@@ -11,7 +11,7 @@ class EnvironmentSettings:
         self.coco_dir = ''
         self.lvis_dir = ''
         self.sbd_dir = ''
-        self.dream_dir = os.path.join(self.workspace_dir, "dream_checkpoints")
+        self.dream_dir = self.workspace_dir + '/dream/'
 
 
         self.imagenet_dir = ''
