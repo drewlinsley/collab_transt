@@ -526,6 +526,7 @@ def transt_resnet50(settings):
     model.to(device)
     if settings.init_ckpt:
         print("Initializing from settings.init_ckpt")
+        import pdb;pdb.set_trace()
         model = load_weights(model, settings.init_ckpt, strict=False)  # Not strict so we can add to the model
     return model
 
