@@ -140,7 +140,7 @@ class Dream(BaseVideoDataset):
 
         # valid = (bbox[:, 2] > 0) & (bbox[:, 3] > 0)
         # visible = self._read_target_visible(seq_path) & valid.byte()
-        visible, valid = True, True
+        visible, valid = np.asarray(1), np.asarray(1)
 
         return {'bbox': bbox, 'valid': valid, 'visible': visible}
 
