@@ -102,7 +102,6 @@ class Dream(BaseVideoDataset):
         return self.seq_per_class[class_name]
 
     def _read_bb_anno(self, seq_path):
-        import pdb;pdb.set_trace()
         bb_anno_file = os.path.join(seq_path, "groundtruth.txt")
         gt = pandas.read_csv(bb_anno_file, delimiter=',', header=None, dtype=np.float32, na_filter=False, low_memory=False).values
         return torch.tensor(gt)
@@ -122,21 +121,26 @@ class Dream(BaseVideoDataset):
         return target_visible
 
     def _get_sequence_path(self, seq_id):
-        import pdb;pdb.set_trace()
         seq_name = self.sequence_list[seq_id]
         class_name = "neuron"  # seq_name.split('-')[0]
         vid_id = seq_name  # seq_name.split('-')[1]
 
-        return os.path.join(self.root, "cell_video_{}.npy".format(vid_id))
+        return os.path.join(self.root, "cell_video_{}.npy".format(vid_id)), seq_name
         # return os.path.join(self.root, class_name, class_name + '-' + vid_id)
 
     def get_sequence_info(self, seq_id):
-        seq_path = self._get_sequence_path(seq_id)
-        import pdb;pdb.set_trace()
-        bbox = self._read_bb_anno(seq_path)
+        seq_path, well_name = self._get_sequence_path(seq_id)
+        bboxs = self.annos[well_name]
+
+        # Grab a random object
+        n = len(bboxs)
+        bbox = bboxs[np.random.permutation(n)[0]]
+
+        # bbox = self._read_bb_anno(seq_path)
 
         valid = (bbox[:, 2] > 0) & (bbox[:, 3] > 0)
-        visible = self._read_target_visible(seq_path) & valid.byte()
+        # visible = self._read_target_visible(seq_path) & valid.byte()
+        visible = valid.byte()
 
         return {'bbox': bbox, 'valid': valid, 'visible': visible}
 
@@ -157,7 +161,6 @@ class Dream(BaseVideoDataset):
         return obj_class
 
     def get_frames(self, seq_id, frame_ids, anno=None):
-        import pdb;pdb.set_trace()
         seq_path = self._get_sequence_path(seq_id)
 
         obj_class = self._get_class(seq_path)
