@@ -135,12 +135,12 @@ class Dream(BaseVideoDataset):
         # Grab a random object
         n = len(bboxs)
         bbox = bboxs[np.random.permutation(n)[0]]
-        bbox = np.asarray(bbox)
+        bbox = torch.tensor(bbox)
         # bbox = self._read_bb_anno(seq_path)
 
         # valid = (bbox[:, 2] > 0) & (bbox[:, 3] > 0)
         # visible = self._read_target_visible(seq_path) & valid.byte()
-        visible, valid = np.asarray(1), np.asarray(1)
+        visible, valid = torch.tensor(1), torch.tensor(1)
 
         return {'bbox': bbox, 'valid': valid, 'visible': visible}
 
