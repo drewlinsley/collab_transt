@@ -99,6 +99,7 @@ class TrackingSampler(torch.utils.data.Dataset):
             seq_id = random.randint(0, dataset.get_num_sequences() - 1)
 
             # Sample frames
+            import pdb;pdb.set_trace()
             seq_info_dict = dataset.get_sequence_info(seq_id)
             visible = seq_info_dict['visible']
 
