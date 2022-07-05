@@ -320,7 +320,8 @@ class TrackingSampler(torch.utils.data.Dataset):
                 gap_increase = 0
                 count = 0
                 num_search_frames = self.num_search_frames
-                while search_frame_ids is None:                    
+                while search_frame_ids is None:
+                    import pdb;pdb.set_trace()
                     base_frame_id = self._sample_visible_ids_ar(visible, num_ids=1, num_search=num_search_frames)
                     extra_template_frame_ids = self._sample_visible_ids_ar(visible, num_ids=self.num_template_frames - 1, num_search=num_search_frames,
                                                                      min_id=base_frame_id[
