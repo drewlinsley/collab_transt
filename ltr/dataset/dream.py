@@ -69,7 +69,7 @@ class Dream(BaseVideoDataset):
                     # Store in a dict
                     annos_files[well] = tracks
                     # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
-                    file_paths = file
+                    file_paths[well] = file
                 else:
                     # Remove this well from the dict
                     pass
