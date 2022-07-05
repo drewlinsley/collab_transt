@@ -122,6 +122,7 @@ class Dream(BaseVideoDataset):
         return target_visible
 
     def _get_sequence_path(self, seq_id):
+        import pdb;pdb.set_trace()
         seq_name = self.sequence_list[seq_id]
         class_name = seq_name.split('-')[0]
         vid_id = seq_name.split('-')[1]
