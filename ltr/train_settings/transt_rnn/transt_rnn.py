@@ -1,7 +1,8 @@
 import torch
 from ltr.dataset import Lasot, MSCOCOSeq, Got10k, TrackingNet, Dream
 from ltr.data import processing, sampler, LTRLoader
-import ltr.models.tracking.transt_circuit_encoder_test_mult as transt_models
+# import ltr.models.tracking.transt_circuit_encoder_test_mult as transt_models
+import ltr.models.tracking.transt_circuit_encoder_q as transt_models
 # import ltr.models.tracking.transt_control as transt_models
 
 from ltr import actors
