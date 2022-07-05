@@ -66,15 +66,11 @@ class Dream(BaseVideoDataset):
 
                 # Store in a dict
                 annos_files[well] = tracks
-
-            import pdb;pdb.set_trace()
-
-
             # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
         else:
             raise ValueError('Set either split_name or vid_ids.')
 
-        return sequence_list
+        return annos_files
 
     def _build_class_list(self):
         seq_per_class = {}
