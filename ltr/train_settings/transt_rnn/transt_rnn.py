@@ -13,7 +13,7 @@ from ltr import MultiGPU
 
 def run(settings):
     # Most common settings are assigned in the settings struct
-    debug = False
+    debug = True
     if debug:
         settings.batch_size = 2  # 8  # 4  # 120  # 70 # 38
         settings.num_workers = 0  # 24  # 30  # 10  # 35  # 30 min(settings.batch_size, 16)
