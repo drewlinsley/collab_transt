@@ -54,19 +54,24 @@ class Dream(BaseVideoDataset):
             for well in file_wells:
                 data = annotations[annotations.well == well]
 
-                # Then sort by time
-                data = data.sort_values("time")
+                if len(data):
+                    # Then sort by time
+                    data = data.sort_values("time")
 
-                # Now package into a list of lists, with each list corresponding to a different tracked cell
-                objects = data.object.unique()
-                tracks = []
-                for obj in objects:
-                    coords = data[data.object == obj][["w", "h", "width", "height"]].values.tolist()
-                    tracks.append(coords)
+                    # Now package into a list of lists, with each list corresponding to a different tracked cell
+                    objects = data.object.unique()
+                    tracks = []
+                    for obj in objects:
+                        coords = data[data.object == obj][["w", "h", "width", "height"]].values.tolist()
+                        tracks.append(coords)
 
-                # Store in a dict
-                annos_files[well] = tracks
-            # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
+                    # Store in a dict
+                    annos_files[well] = tracks
+                    # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
+                else:
+                    # Remove this well from the dict
+                    pass
+
         else:
             raise ValueError('Set either split_name or vid_ids.')
         sequence_list = {idx: k for idx, k in enumerate(annos_files.keys())}
