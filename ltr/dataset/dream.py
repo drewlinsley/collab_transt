@@ -151,7 +151,7 @@ class Dream(BaseVideoDataset):
         # visible = self._read_target_visible(seq_path) & valid.byte()
         visible, valid = torch.tensor(1), torch.tensor(1)
 
-        return {'bbox': bbox, 'valid': valid, 'visible': visible}, well_name
+        return {'bbox': bbox, 'valid': valid, 'visible': visible}
 
     def _get_frame_path(self, seq_path, frame_id):
         return os.path.join(seq_path, 'img', '{:08}.jpg'.format(frame_id+1))    # frames start from 1
