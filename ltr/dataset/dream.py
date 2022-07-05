@@ -174,7 +174,7 @@ class Dream(BaseVideoDataset):
 
         obj_class = self._get_class(seq_path)
         # frame_list = [self._get_frame(seq_path, f_id) for f_id in frame_ids]
-        frame_list = np.load(self.file_paths[well_name])  # Change to jpegs next!
+        frame_list = np.load(self.file_paths[well_name]).tolist()  # Change to jpegs next!
 
         if anno is None:
             anno = self.get_sequence_info(seq_id)
@@ -182,7 +182,7 @@ class Dream(BaseVideoDataset):
         anno_frames = {}
         for key, value in anno.items():
             anno_frames[key] = [value[f_id, ...].clone() for f_id in frame_ids]
-
+        import pdb;pdb.set_trace()
         object_meta = OrderedDict({'object_class_name': obj_class,
                                    'motion_class': None,
                                    'major_class': None,
