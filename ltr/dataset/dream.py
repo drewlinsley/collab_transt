@@ -149,7 +149,7 @@ class Dream(BaseVideoDataset):
 
         # valid = (bbox[:, 2] > 0) & (bbox[:, 3] > 0)
         # visible = self._read_target_visible(seq_path) & valid.byte()
-        visible, valid = torch.tensor(1), torch.tensor(1)
+        visible, valid = torch.ones(len(bbox)), torch.ones(len(bbox))
 
         return {'bbox': bbox, 'valid': valid, 'visible': visible}
 
