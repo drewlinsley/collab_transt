@@ -249,7 +249,7 @@ class ToGrayscale(TransformBase):
     def transform_image(self, image, do_grayscale):
         if do_grayscale:
             if torch.is_tensor(image):
-                raise NotImplementedError('Implement torch variant.')
+                return (0.299 * image[0] + 0.587 * image[1] + 0.114 * image[2]).unsqueeze(0).repeat(3, 1, 1)
             img_gray = cv.cvtColor(image, cv.COLOR_RGB2GRAY)
             return np.stack([img_gray, img_gray, img_gray], axis=2)
             # return np.repeat(np.sum(img * self.color_weights, axis=2, keepdims=True).astype(np.uint8), 3, axis=2)
