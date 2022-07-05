@@ -99,13 +99,10 @@ class TrackingSampler(torch.utils.data.Dataset):
             seq_id = random.randint(0, dataset.get_num_sequences() - 1)
 
             # Sample frames
-            import pdb;pdb.set_trace()
             seq_info_dict = dataset.get_sequence_info(seq_id)
             visible = seq_info_dict['visible']
 
-            enough_visible_frames = visible.type(torch.int64).sum().item() > 2 * (
-                    self.num_search_frames + self.num_template_frames) and len(visible) >= min_frames  # This was set to 20 previously
-
+            enough_visible_frames = visible.type(torch.int64).sum().item() > 2 * (self.num_search_frames + self.num_template_frames) and len(visible) >= min_frames  # This was set to 20 previously
             enough_visible_frames = enough_visible_frames or not is_video_dataset
 
         if is_video_dataset:
@@ -153,6 +150,7 @@ class TrackingSampler(torch.utils.data.Dataset):
             template_frame_ids = [1] * self.num_template_frames
             search_frame_ids = [1] * self.num_search_frames
 
+        import pdb;pdb.set_trace()
         template_frames, template_anno, meta_obj_template = dataset.get_frames(seq_id, template_frame_ids, seq_info_dict)
         search_frames, search_anno, meta_obj_search = dataset.get_frames(seq_id, search_frame_ids, seq_info_dict)
 
