@@ -69,7 +69,7 @@ class Dream(BaseVideoDataset):
             # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
         else:
             raise ValueError('Set either split_name or vid_ids.')
-        sequence_list = [idx, k for enumerate(annos_files.keys())]
+        sequence_list = {idx: k for idx, k in enumerate(annos_files.keys())}
         return sequence_list, annos_files
 
     def _build_class_list(self):
