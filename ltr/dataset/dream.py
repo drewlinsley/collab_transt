@@ -124,10 +124,11 @@ class Dream(BaseVideoDataset):
     def _get_sequence_path(self, seq_id):
         import pdb;pdb.set_trace()
         seq_name = self.sequence_list[seq_id]
-        class_name = seq_name.split('-')[0]
-        vid_id = seq_name.split('-')[1]
+        class_name = "neuron"  # seq_name.split('-')[0]
+        vid_id = seq_name  # seq_name.split('-')[1]
 
-        return os.path.join(self.root, class_name, class_name + '-' + vid_id)
+        return os.path.join(self.root, "cell_video_{}.npy".format(vid_id))
+        # return os.path.join(self.root, class_name, class_name + '-' + vid_id)
 
     def get_sequence_info(self, seq_id):
         seq_path = self._get_sequence_path(seq_id)
