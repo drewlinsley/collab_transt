@@ -234,7 +234,7 @@ class TrackingSampler(torch.utils.data.Dataset):
             template_frame_ids = None
             search_frame_ids = None
             gap_increase = 0
-
+            import pdb;pdb.set_trace()
             if self.frame_sample_mode == 'interval':
                 # Sample frame numbers within interval defined by the first frame
                 while search_frame_ids is None:
