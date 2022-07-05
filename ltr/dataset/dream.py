@@ -35,7 +35,7 @@ class Dream(BaseVideoDataset):
         self.class_list = ["neuron"]  # [f for f in os.listdir(self.root)]
         self.class_to_id = {cls_name: cls_id for cls_id, cls_name in enumerate(self.class_list)}
 
-        self.sequence_list = self._build_sequence_list(vid_ids, split, root)
+        self.sequence_list, self.annos = self._build_sequence_list(vid_ids, split, root)
 
         if data_fraction is not None:
             self.sequence_list = random.sample(self.sequence_list, int(len(self.sequence_list)*data_fraction))
@@ -69,8 +69,8 @@ class Dream(BaseVideoDataset):
             # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
         else:
             raise ValueError('Set either split_name or vid_ids.')
-
-        return annos_files
+        sequence_list = [idx, k for enumerate(annos_files.keys())]
+        return sequence_list, annos_files
 
     def _build_class_list(self):
         seq_per_class = {}
