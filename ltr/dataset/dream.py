@@ -61,7 +61,8 @@ class Dream(BaseVideoDataset):
                 objects = data.object.unique()
                 tracks = []
                 for obj in objects:
-                    tracks.append(data[data.object == obj])
+                    coords = data[data.object == obj][["w", "h", "width", "height"]].values.tolist()
+                    tracks.append(coords)
 
                 # Store in a dict
                 annos_files[well] = tracks
