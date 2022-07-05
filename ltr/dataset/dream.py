@@ -35,7 +35,7 @@ class Dream(BaseVideoDataset):
         self.class_list = ["neuron"]  # [f for f in os.listdir(self.root)]
         self.class_to_id = {cls_name: cls_id for cls_id, cls_name in enumerate(self.class_list)}
 
-        self.sequence_list, self.annos = self._build_sequence_list(vid_ids, split, root)
+        self.sequence_list, self.annos, self.file_paths = self._build_sequence_list(vid_ids, split, root)
 
         if data_fraction is not None:
             self.sequence_list = random.sample(self.sequence_list, int(len(self.sequence_list)*data_fraction))
@@ -51,7 +51,8 @@ class Dream(BaseVideoDataset):
             # Filter by well
             file_wells = [x.split("_")[-1].replace(".npy", "") for x in files]
             annos_files = {}
-            for well in file_wells:
+            file_paths = {}
+            for well, file in zip(file_wells, files):
                 data = annotations[annotations.well == well]
 
                 if len(data):
@@ -68,6 +69,7 @@ class Dream(BaseVideoDataset):
                     # Store in a dict
                     annos_files[well] = tracks
                     # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
+                    file_paths = file
                 else:
                     # Remove this well from the dict
                     pass
@@ -75,7 +77,7 @@ class Dream(BaseVideoDataset):
         else:
             raise ValueError('Set either split_name or vid_ids.')
         sequence_list = {idx: k for idx, k in enumerate(annos_files.keys())}
-        return sequence_list, annos_files
+        return sequence_list, annos_files, file_paths
 
     def _build_class_list(self):
         seq_per_class = {}
@@ -149,7 +151,7 @@ class Dream(BaseVideoDataset):
         # visible = self._read_target_visible(seq_path) & valid.byte()
         visible, valid = torch.tensor(1), torch.tensor(1)
 
-        return {'bbox': bbox, 'valid': valid, 'visible': visible}
+        return {'bbox': bbox, 'valid': valid, 'visible': visible}, well_name
 
     def _get_frame_path(self, seq_path, frame_id):
         return os.path.join(seq_path, 'img', '{:08}.jpg'.format(frame_id+1))    # frames start from 1
@@ -168,10 +170,11 @@ class Dream(BaseVideoDataset):
         return obj_class
 
     def get_frames(self, seq_id, frame_ids, anno=None):
-        seq_path = self._get_sequence_path(seq_id)
+        seq_path, well_name = self._get_sequence_path(seq_id)
 
         obj_class = self._get_class(seq_path)
-        frame_list = [self._get_frame(seq_path, f_id) for f_id in frame_ids]
+        # frame_list = [self._get_frame(seq_path, f_id) for f_id in frame_ids]
+        frame_list = np.load(self.file_paths[well_name])  # Change to jpegs next!
 
         if anno is None:
             anno = self.get_sequence_info(seq_id)
