@@ -135,7 +135,8 @@ class Dream(BaseVideoDataset):
         # Grab a random object
         n = len(bboxs)
         bbox = bboxs[np.random.permutation(n)[0]]
-
+        import pdb;pdb.set_trace()
+        bbox = np.asarray(bbox)
         # bbox = self._read_bb_anno(seq_path)
 
         valid = (bbox[:, 2] > 0) & (bbox[:, 3] > 0)
