@@ -79,7 +79,7 @@ class TrackingSampler(torch.utils.data.Dataset):
 
         return random.choices(valid_ids, k=num_ids)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index, min_frames=5):
         """
         args:
             index (int): Index (Ignored since we sample randomly)
@@ -104,7 +104,7 @@ class TrackingSampler(torch.utils.data.Dataset):
             visible = seq_info_dict['visible']
 
             enough_visible_frames = visible.type(torch.int64).sum().item() > 2 * (
-                    self.num_search_frames + self.num_template_frames) and len(visible) >= 20
+                    self.num_search_frames + self.num_template_frames) and len(visible) >= min_frames  # This was set to 20 previously
 
             enough_visible_frames = enough_visible_frames or not is_video_dataset
 
