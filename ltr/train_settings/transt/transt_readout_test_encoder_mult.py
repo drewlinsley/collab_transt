@@ -59,7 +59,7 @@ def run(settings):
     # lasot_train = Lasot(settings.env.lasot_dir, split='train')
     # got10k_train = Got10k(settings.env.got10k_dir, split='vottrain')  # votval
     # trackingnet_train = TrackingNet(settings.env.trackingnet_dir, set_ids=list(range(4)))
-    trackingnet_train = Dream(settings.env.dream_dir)
+    dream_train = Dream(settings.env.dream_dir)
     # coco_train = MSCOCOSeq(settings.env.coco_dir)
 
     # The joint augmentation transform, that is applied to the pairs jointly
