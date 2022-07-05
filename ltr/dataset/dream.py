@@ -52,7 +52,7 @@ class Dream(BaseVideoDataset):
             file_wells = [x.split("_")[-1].replace(".npy", "") for x in files]
             annos_files = {}
             for well in file_wells:
-                data = data[annotations.well == well]
+                data = annotations[annotations.well == well]
 
                 # Then sort by time
                 data = data.sort_values("time")
