@@ -134,6 +134,8 @@ class Dream(BaseVideoDataset):
 
         # Grab a random object
         n = len(bboxs)
+        if n == 0:
+            import pdb;pdb.set_trace()
         bbox = bboxs[np.random.permutation(n)[0]]
         bbox = torch.tensor(bbox)
         # bbox = self._read_bb_anno(seq_path)
