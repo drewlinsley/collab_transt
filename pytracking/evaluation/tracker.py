@@ -418,10 +418,9 @@ class Tracker:
             out = tracker.track(frame)
             state = [int(s) for s in out['target_bbox'][1]]
             # If the tracker box confidence is < threshold, kill the tracker
-            print({k: max(v) for k, v in out["max_score"].items()}, state)
-            if out["max_score"][1].max() < 0.6:
+            if out["max_score"][1].max() < 0.9:
                 return output_boxes
-
+            print({k: max(v) for k, v in out["max_score"].items()}, state)
             output_boxes.append(state)
 
         return output_boxes
