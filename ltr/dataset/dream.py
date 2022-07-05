@@ -11,22 +11,14 @@ from ltr.data.image_loader import jpeg4py_loader
 from ltr.admin.environment import env_settings
 
 
-class Cells(BaseVideoDataset):
-    """ LaSOT dataset.
-
-    Publication:
-        LaSOT: A High-quality Benchmark for Large-scale Single Object Tracking
-        Heng Fan, Liting Lin, Fan Yang, Peng Chu, Ge Deng, Sijia Yu, Hexin Bai, Yong Xu, Chunyuan Liao and Haibin Ling
-        CVPR, 2019
-        https://arxiv.org/pdf/1809.07845.pdf
-
-    Download the dataset from https://cis.temple.edu/lasot/download.html
+class Dream(BaseVideoDataset):
+    """ Dream data
     """
 
     def __init__(self, root=None, image_loader=jpeg4py_loader, vid_ids=None, split=None, data_fraction=None):
         """
         args:
-            root - path to the lasot dataset.
+            root - path to the dream dataset.
             image_loader (jpeg4py_loader) -  The function to read the images. jpeg4py (https://github.com/ajkxyz/jpeg4py)
                                             is used by default.
             vid_ids - List containing the ids of the videos (1 - 20) used for training. If vid_ids = [1, 3, 5], then the
@@ -35,8 +27,8 @@ class Cells(BaseVideoDataset):
                     vid_ids or split option can be used at a time.
             data_fraction - Fraction of dataset to be used. The complete dataset is used by default
         """
-        root = env_settings().lasot_dir if root is None else root
-        super().__init__('LaSOT', root, image_loader)
+        root = env_settings().dream_dir if root is None else root
+        super().__init__('Dream', root, image_loader)
 
         # Keep a list of all classes
         self.class_list = [f for f in os.listdir(self.root)]
@@ -55,7 +47,7 @@ class Cells(BaseVideoDataset):
                 raise ValueError('Cannot set both split_name and vid_ids.')
             ltr_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
             if split == 'train':
-                file_path = os.path.join(ltr_path, 'data_specs', 'lasot_train_split.txt')
+                file_path = os.path.join(ltr_path, 'data_specs', 'dream_train_split.txt')
             else:
                 raise ValueError('Unknown split name.')
             sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
@@ -78,13 +70,13 @@ class Cells(BaseVideoDataset):
         return seq_per_class
 
     def get_name(self):
-        return 'lasot'
+        return 'dream'
 
     def has_class_info(self):
-        return True
+        return False
 
     def has_occlusion_info(self):
-        return True
+        return False
 
     def get_num_sequences(self):
         return len(self.sequence_list)
@@ -96,6 +88,7 @@ class Cells(BaseVideoDataset):
         return self.seq_per_class[class_name]
 
     def _read_bb_anno(self, seq_path):
+        import pdb;pdb.set_trace()
         bb_anno_file = os.path.join(seq_path, "groundtruth.txt")
         gt = pandas.read_csv(bb_anno_file, delimiter=',', header=None, dtype=np.float32, na_filter=False, low_memory=False).values
         return torch.tensor(gt)

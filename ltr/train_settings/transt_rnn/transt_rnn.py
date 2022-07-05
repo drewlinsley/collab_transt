@@ -149,5 +149,3 @@ def run(settings):
 
     # Run training (set fail_safe=False if you are debugging)
     trainer.train(1000, load_latest=True, fail_safe=True)
-
-
