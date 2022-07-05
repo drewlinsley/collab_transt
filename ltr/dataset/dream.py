@@ -9,6 +9,7 @@ from collections import OrderedDict
 from .base_video_dataset import BaseVideoDataset
 from ltr.data.image_loader import jpeg4py_loader
 from ltr.admin.environment import env_settings
+from glob import glob
 
 
 class Dream(BaseVideoDataset):
@@ -34,26 +35,20 @@ class Dream(BaseVideoDataset):
         self.class_list = ["neuron"]  # [f for f in os.listdir(self.root)]
         self.class_to_id = {cls_name: cls_id for cls_id, cls_name in enumerate(self.class_list)}
 
-        self.sequence_list = self._build_sequence_list(vid_ids, split)
+        self.sequence_list = self._build_sequence_list(vid_ids, split, root)
 
         if data_fraction is not None:
             self.sequence_list = random.sample(self.sequence_list, int(len(self.sequence_list)*data_fraction))
 
-        self.seq_per_class = self._build_class_list()
+        self.seq_per_class = {self.class_list[0]: self.sequence_list}  # self._build_class_list()
 
-    def _build_sequence_list(self, vid_ids=None, split=None):
+    def _build_sequence_list(self, vid_ids=None, split=None, root=None):
         import pdb;pdb.set_trace()
-        if split is not None:
-            if vid_ids is not None:
-                raise ValueError('Cannot set both split_name and vid_ids.')
+        if split is None or split == "train":
             ltr_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
-            if split == 'train':
-                file_path = os.path.join(ltr_path, 'data_specs', 'dream_train_split.txt')
-            else:
-                raise ValueError('Unknown split name.')
-            sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
-        elif vid_ids is not None:
-            sequence_list = [c+'-'+str(v) for c in self.class_list for v in vid_ids]
+            files = glob(os.path.join(root, "*.npy"))
+            sequence_list = pandas.read_csv(os.path.join(root, "cells_tracked_all.csv"))
+            # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
         else:
             raise ValueError('Set either split_name or vid_ids.')
 
@@ -117,6 +112,7 @@ class Dream(BaseVideoDataset):
 
     def get_sequence_info(self, seq_id):
         seq_path = self._get_sequence_path(seq_id)
+        import pdb;pdb.set_trace()
         bbox = self._read_bb_anno(seq_path)
 
         valid = (bbox[:, 2] > 0) & (bbox[:, 3] > 0)
