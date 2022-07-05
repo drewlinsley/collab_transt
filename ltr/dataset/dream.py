@@ -31,6 +31,7 @@ class Dream(BaseVideoDataset):
         super().__init__('Dream', root, image_loader)
 
         # Keep a list of all classes
+        import pdb;pdb.set_trace()
         self.class_list = [f for f in os.listdir(self.root)]
         self.class_to_id = {cls_name: cls_id for cls_id, cls_name in enumerate(self.class_list)}
 
