@@ -1,3 +1,6 @@
+import os
+
+
 class EnvironmentSettings:
     def __init__(self):
         self.workspace_dir = ''    # Base directory for saving network checkpoints.
@@ -8,7 +11,7 @@ class EnvironmentSettings:
         self.coco_dir = ''
         self.lvis_dir = ''
         self.sbd_dir = ''
-
+        self.dream_dir = os.path.join(self.workspace_dir, "dream_checkpoints")
 
 
         self.imagenet_dir = ''
