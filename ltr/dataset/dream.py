@@ -43,11 +43,32 @@ class Dream(BaseVideoDataset):
         self.seq_per_class = {self.class_list[0]: self.sequence_list}  # self._build_class_list()
 
     def _build_sequence_list(self, vid_ids=None, split=None, root=None):
-        import pdb;pdb.set_trace()
         if split is None or split == "train":
             ltr_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
             files = glob(os.path.join(root, "*.npy"))
-            sequence_list = pandas.read_csv(os.path.join(root, "cells_tracked_all.csv"))
+            annotations = pandas.read_csv(os.path.join(root, "formatted_data.csv"))
+
+            # Filter by well
+            file_wells = [x.split("_")[-1].replace(".npy", "") for x in files]
+            annos_files = {}
+            for well in file_wells:
+                data = [file_wells.well == well]
+
+                # Then sort by time
+                data = data.sort_values("time")
+
+                # Now package into a list of lists, with each list corresponding to a different tracked cell
+                objects = data.object.unique()
+                tracks = []
+                for obj in objects:
+                    tracks.append(data[data.object == obj])
+
+                # Store in a dict
+                annos_files[well] = tracks
+
+            import pdb;pdb.set_trace()
+
+
             # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
         else:
             raise ValueError('Set either split_name or vid_ids.')
