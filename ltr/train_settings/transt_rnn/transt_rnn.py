@@ -20,8 +20,8 @@ def run(settings):
         settings.multi_gpu = False  # True  # True  # True #  True  # True  # True  # True
 
     else:
-        settings.batch_size = 16  # 8  # 4  # 120  # 70 # 38
-        settings.num_workers = 16  # 24  # 30  # 10  # 35  # 30 min(settings.batch_size, 16)
+        settings.batch_size = 1  # 4  # 8  # 4  # 120  # 70 # 38
+        settings.num_workers = 1  # 4  # 24  # 30  # 10  # 35  # 30 min(settings.batch_size, 16)
         settings.multi_gpu = True  # True  # True  # True #  True  # True  # True  # True
 
     settings.device = 'cuda'
