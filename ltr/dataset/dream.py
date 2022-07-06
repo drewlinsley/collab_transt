@@ -67,7 +67,7 @@ class Dream(BaseVideoDataset):
                     for obj in objects:
                         coords = data[data.object == obj]
                         annos_files.append(coords[["w", "h", "width", "height"]].values.tolist())
-                        file_paths.append(np.asarray(images[coords.time.values]).astype(str))
+                        file_paths.append(images[coords.time.values].tolist())
 
                     # Store in a dict
                     # annos_files[well] = tracks
