@@ -64,19 +64,17 @@ class Dream(BaseVideoDataset):
 
                     # Now package into a list of lists, with each list corresponding to a different tracked cell
                     objects = data.object.unique()
-                    tracks = []
-                    files = []
                     for obj in objects:
                         coords = data[data.object == obj]
-                        tracks.append(coords[["w", "h", "width", "height"]].values.tolist())
-                        files.append(images[coords.time.values])
+                        annos_files.append(coords[["w", "h", "width", "height"]].values.tolist())
+                        file_paths.append(images[coords.time.values])
 
                     # Store in a dict
                     # annos_files[well] = tracks
-                    annos_files.append(tracks)
+                    # annos_files.append(tracks)
                     # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
                     # file_paths[well] = files
-                    file_paths.append(files)
+                    # file_paths.append(files)
                 else:
                     # Remove this well from the dict
                     pass
