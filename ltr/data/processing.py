@@ -185,6 +185,7 @@ class TransTProcessing(BaseProcessing):
                         else:
                             filler_anno = jittered_anno[mi]
                             filler_jitter = data[s + '_anno'][mi]
+                import pdb;pdb.set_trace()
                 crops, boxes, _ = prutils.jittered_center_crop(data[s + '_images'], jittered_anno, data[s + '_anno'],
                                                         self.search_area_factor, self.search_sz)
                 # except:
