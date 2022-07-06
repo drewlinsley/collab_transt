@@ -30,6 +30,7 @@ class LTRTrainer(BaseTrainer):
         self.tensorboard_writer = TensorboardWriter(tensorboard_writer_dir, [l.name for l in loaders])
 
         self.move_data_to_gpu = getattr(settings, 'move_data_to_gpu', True)
+        self.pin_memory = getattr(settings, 'pin_memory', False)
 
     def _set_default_settings(self):
         # Dict of all default values
@@ -50,14 +51,16 @@ class LTRTrainer(BaseTrainer):
         self._init_timing()
 
         for i, data in enumerate(loader, 1):
-            if self.move_data_to_gpu:
+            if self.pin_memory and self.move_data_to_gpu:
+                data = {k: v.to(self.device) for k, v in data.items()}
+            elif self.move_data_to_gpu:
                 data = data.to(self.device)
 
             data['epoch'] = self.epoch
             data['settings'] = self.settings
 
             # forward pass
-            loss, stats = self.actor(data)
+            loss, stats = self.actor(data, self.settings)
 
             # backward pass and update weights
             if loader.training:
