@@ -204,7 +204,7 @@ class TrackingSampler(torch.utils.data.Dataset):
         np.save("data_stats/{}".format(dataset.name), challenges)
         return challenges
 
-    def __getitem__(self, index, vis_thresh=20, challenge_thresh=0.5):  # Dropped vis_thresh from 20 -> 10
+    def __getitem__(self, index, vis_thresh=3, challenge_thresh=0.5):  # Dropped vis_thresh from 20 -> 10 -> 3
         """
         args:
             index (int): Index (Ignored since we sample randomly)
