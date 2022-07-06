@@ -235,7 +235,6 @@ class TrackingSampler(torch.utils.data.Dataset):
             template_frame_ids = None
             search_frame_ids = None
             gap_increase = 0
-            import pdb;pdb.set_trace()
             if self.frame_sample_mode == 'interval':
                 # Sample frame numbers within interval defined by the first frame
                 while search_frame_ids is None:
@@ -321,7 +320,6 @@ class TrackingSampler(torch.utils.data.Dataset):
                 gap_increase = 0
                 count = 0
                 num_search_frames = self.num_search_frames
-                import pdb;pdb.set_trace()
                 while search_frame_ids is None:
                     base_frame_id = self._sample_visible_ids_ar(visible, num_ids=1, num_search=num_search_frames)
                     extra_template_frame_ids = self._sample_visible_ids_ar(visible, num_ids=self.num_template_frames - 1, num_search=num_search_frames,
@@ -339,14 +337,15 @@ class TrackingSampler(torch.utils.data.Dataset):
                     max_to_mid = 1 if (template_frame_ids[0] + self.max_gap + gap_increase) < len(visible) else 0
                     mid_to_min = 1 if (template_frame_ids[0] - self.max_gap - gap_increase) > 0 else 0
                     # case = random.choices(np.arange(5), [min_to_mid, mid_to_max, max_to_mid, mid_to_min, 1])[0]
-                    if sum([0, mid_to_max, 0, mid_to_min]) == 0:
-                        # gap_increase += 5  # Increase gap until a frame is found
-                        # count += 1
-                        # if count > 4:
-                            # num_search_frames = num_search_frames // 2
-                            # Let's just sample a new dataset.
-                        seq_id, seq_info_dict, visible, enough_visible_frames = self.sample_seq(dataset, vis_thresh, is_video_dataset)
-                        continue
+
+                    # if sum([0, mid_to_max, 0, mid_to_min]) == 0:
+                    #     # gap_increase += 5  # Increase gap until a frame is found
+                    #     # count += 1
+                    #     # if count > 4:
+                    #         # num_search_frames = num_search_frames // 2
+                    #         # Let's just sample a new dataset.
+                    #     seq_id, seq_info_dict, visible, enough_visible_frames = self.sample_seq(dataset, vis_thresh, is_video_dataset)
+                    #     continue
 
                     import pdb;pdb.set_trace()
                     case = random.choices(np.arange(4), [0, mid_to_max, 0, mid_to_min])[0]
