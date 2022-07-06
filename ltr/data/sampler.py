@@ -168,6 +168,7 @@ class TrackingSampler(torch.utils.data.Dataset):
 
     def sample_seq(self, dataset, vis_thresh, is_video_dataset):
         enough_visible_frames = False
+        import pdb;pdb.set_trace()
         while not enough_visible_frames:
             if 0:  # self.frame_sample_mode == 'rnn_causal':
                 # Sample the harder half of the sequences
