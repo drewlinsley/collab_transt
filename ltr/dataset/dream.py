@@ -172,7 +172,7 @@ class Dream(BaseVideoDataset):
     def get_frames(self, seq_id, frame_ids, anno=None):
         seq_path = self._get_sequence_path(seq_id)
 
-        obj_class = self._get_class(seq_path)
+        obj_class = 1  # self._get_class(seq_path)
         import pdb;pdb.set_trace()
         frame_list = [self._get_frame(seq_path, f_id) for f_id in frame_ids]
         # frame_list = np.load(self.file_paths[well_name]).tolist()  # Change to jpegs next!
