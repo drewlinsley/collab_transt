@@ -347,6 +347,7 @@ class TrackingSampler(torch.utils.data.Dataset):
                         seq_id, seq_info_dict, visible, enough_visible_frames = self.sample_seq(dataset, vis_thresh, is_video_dataset)
                         continue
 
+                    import pdb;pdb.set_trace()
                     case = random.choices(np.arange(4), [0, mid_to_max, 0, mid_to_min])[0]
                     if case == 0:
                         search_frame_ids = self._sample_seq_ids(visible, min_id=template_frame_ids[0] - self.max_gap - gap_increase,  # template_frame_ids[0] + 1,
