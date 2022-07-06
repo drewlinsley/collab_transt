@@ -20,7 +20,6 @@ def sample_target(im, target_bb, search_area_factor, output_sz=None, mask=None):
         cv image - extracted crop
         float - the factor by which the crop has been resized to make the crop size equal output_size
     """
-    import pdb;pdb.set_trace()
     avg_chans = np.mean(im, axis=(0, 1))
     x, y, w, h = target_bb.tolist()
 

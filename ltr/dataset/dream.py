@@ -156,8 +156,8 @@ class Dream(BaseVideoDataset):
     def _get_frame_path(self, seq_path, frame_id):
         return os.path.join(seq_path, '{}.jpg'.format(frame_id))    # frames start from 1
 
-    def _get_frame(self, seq_path, frame_id):
-        return self.image_loader(self._get_frame_path(seq_path, frame_id))
+    def _get_frame(self, f):
+        return self.image_loader(f)
 
     def _get_class(self, seq_path):
         raw_class = seq_path.split('/')[-2]
@@ -173,7 +173,7 @@ class Dream(BaseVideoDataset):
         seq_path = self._get_sequence_path(seq_id)
 
         obj_class = 1  # self._get_class(seq_path)
-        frame_list = self.file_paths[seq_id][frame_ids]
+        frame_list = [self._get_frame(f) for f in self.file_paths[seq_id][frame_ids]]
         # frame_list = [self._get_frame(seq_path, f_id) for f_id in frame_ids]
         # frame_list = np.load(self.file_paths[well_name]).tolist()  # Change to jpegs next!
 
