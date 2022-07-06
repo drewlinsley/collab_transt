@@ -170,7 +170,7 @@ class Dream(BaseVideoDataset):
         return obj_class
 
     def get_frames(self, seq_id, frame_ids, anno=None):
-        seq_path, well_name = self._get_sequence_path(seq_id)
+        seq_path = self._get_sequence_path(seq_id)
 
         obj_class = self._get_class(seq_path)
         import pdb;pdb.set_trace()
