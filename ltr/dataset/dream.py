@@ -44,14 +44,14 @@ class Dream(BaseVideoDataset):
 
     def _build_sequence_list(self, vid_ids=None, split=None, root=None):
         if split is None or split == "train":
-            ltr_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
+            # ltr_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
             import pdb;pdb.set_trace()
             files = glob(os.path.join(root, "*"))
             files = [x for x in files if "." not in x]
             annotations = pandas.read_csv(os.path.join(root, "formatted_data.csv"))
 
             # Filter by well
-            file_wells = [x.split("_")[-1].replace(".npy", "") for x in files]
+            file_wells = [x.split(os.path.sep) for x in files]
             annos_files = {}
             file_paths = {}
             for well, file in zip(file_wells, files):
