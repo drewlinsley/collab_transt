@@ -10,6 +10,7 @@ from .base_video_dataset import BaseVideoDataset
 from ltr.data.image_loader import jpeg4py_loader
 from ltr.admin.environment import env_settings
 from glob import glob
+from natsort import natsorted
 
 
 class Dream(BaseVideoDataset):
@@ -52,11 +53,12 @@ class Dream(BaseVideoDataset):
 
             # Filter by well
             file_wells = [x.split(os.path.sep)[-1] for x in files]
-            annos_files = {}
-            file_paths = {}
+            # annos_files, file_paths = {}, {}
+            annos_files, file_paths = [], []
             for well, file in zip(file_wells, files):
                 data = annotations[annotations.well == well]
-
+                images = glob(os.path.join(file, "*.jpg"))
+                images = np.asarray(natsorted(images))
                 if len(data):
                     # Then sort by time
                     data = data.sort_values("time")
@@ -64,21 +66,26 @@ class Dream(BaseVideoDataset):
                     # Now package into a list of lists, with each list corresponding to a different tracked cell
                     objects = data.object.unique()
                     tracks = []
+                    files = []
                     for obj in objects:
-                        coords = data[data.object == obj][["w", "h", "width", "height"]].values.tolist()
-                        tracks.append(coords)
+                        coords = data[data.object == obj]
+                        tracks.append(coords[["w", "h", "width", "height"]].values.tolist())
+                        files.append(images[coords.time.values - 1])
 
                     # Store in a dict
-                    annos_files[well] = tracks
+                    # annos_files[well] = tracks
+                    annos_files.append(tracks)
                     # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
-                    file_paths[well] = file
+                    # file_paths[well] = files
+                    file_paths.append(files)
                 else:
                     # Remove this well from the dict
                     pass
 
         else:
             raise ValueError('Set either split_name or vid_ids.')
-        sequence_list = {idx: k for idx, k in enumerate(annos_files.keys())}
+        # sequence_list = {idx: k for idx, k in enumerate(annos_files.keys())}
+        sequence_list = np.arange(len(annos_files))
         return sequence_list, annos_files, file_paths
 
     def _build_class_list(self):
@@ -138,9 +145,9 @@ class Dream(BaseVideoDataset):
         # return os.path.join(self.root, class_name, class_name + '-' + vid_id)
 
     def get_sequence_info(self, seq_id):
+        import pdb;pdb.set_trace()
         seq_path, well_name = self._get_sequence_path(seq_id)
         bboxs = self.annos[well_name]
-        import pdb;pdb.set_trace()
         # Grab a random object
         n = len(bboxs)
         if n == 0:
