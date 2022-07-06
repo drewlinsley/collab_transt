@@ -67,7 +67,7 @@ class Dream(BaseVideoDataset):
                     for obj in objects:
                         coords = data[data.object == obj]
                         annos_files.append(coords[["w", "h", "width", "height"]].values.tolist())
-                        file_paths.append(images[coords.time.values])
+                        file_paths.append(np.asarray(images[coords.time.values]).astype(str))
 
                     # Store in a dict
                     # annos_files[well] = tracks
@@ -83,9 +83,6 @@ class Dream(BaseVideoDataset):
             raise ValueError('Set either split_name or vid_ids.')
         # sequence_list = {idx: k for idx, k in enumerate(annos_files.keys())}
         sequence_list = np.arange(len(annos_files))
-        annos_files = np.asarray(annos_files)
-        import pdb;pdb.set_trace()
-        file_paths = np.asarray(file_paths).astype(str)
         return sequence_list, annos_files, file_paths
 
     def _build_class_list(self):
