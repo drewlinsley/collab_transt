@@ -67,7 +67,7 @@ class Dream(BaseVideoDataset):
                     for obj in objects:
                         coords = data[data.object == obj]
                         annos_files.append(coords[["w", "h", "width", "height"]].values.tolist())
-                        file_paths.append(images[coords.time.values].tolist())
+                        file_paths.append(images[coords.time.values])
 
                     # Store in a dict
                     # annos_files[well] = tracks
@@ -173,8 +173,7 @@ class Dream(BaseVideoDataset):
         seq_path = self._get_sequence_path(seq_id)
 
         obj_class = 1  # self._get_class(seq_path)
-        import pdb;pdb.set_trace()
-        frame_list = [self._get_frame(f) for f in self.file_paths[seq_id][frame_ids]]
+        frame_list = [self._get_frame(f) for f in self.file_paths[seq_id][frame_ids].tolist()]
         # frame_list = [self._get_frame(seq_path, f_id) for f_id in frame_ids]
         # frame_list = np.load(self.file_paths[well_name]).tolist()  # Change to jpegs next!
 
