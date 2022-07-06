@@ -11,10 +11,8 @@ class EnvironmentSettings:
         self.coco_dir = ''
         self.lvis_dir = ''
         self.sbd_dir = ''
-        self.dream_dir = "/content/drive/MyDrive/tracking_cells/proc_tracking_data"
+        self.dream_dir = '/content/drive/MyDrive/tracking_cells/dream_jpegs'
         # self.workspace_dir + '/dream/'
-
-
         self.imagenet_dir = ''
         self.imagenetdet_dir = ''
         self.ecssd_dir = ''
