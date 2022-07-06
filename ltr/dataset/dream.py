@@ -154,7 +154,7 @@ class Dream(BaseVideoDataset):
         return {'bbox': bbox, 'valid': valid, 'visible': visible}
 
     def _get_frame_path(self, seq_path, frame_id):
-        return os.path.join(seq_path, 'img', '{:08}.jpg'.format(frame_id+1))    # frames start from 1
+        return os.path.join(seq_path, '{}.jpg'.format(frame_id))    # frames start from 1
 
     def _get_frame(self, seq_path, frame_id):
         return self.image_loader(self._get_frame_path(seq_path, frame_id))
@@ -173,8 +173,9 @@ class Dream(BaseVideoDataset):
         seq_path, well_name = self._get_sequence_path(seq_id)
 
         obj_class = self._get_class(seq_path)
-        # frame_list = [self._get_frame(seq_path, f_id) for f_id in frame_ids]
-        frame_list = np.load(self.file_paths[well_name]).tolist()  # Change to jpegs next!
+        import pdb;pdb.set_trace()
+        frame_list = [self._get_frame(seq_path, f_id) for f_id in frame_ids]
+        # frame_list = np.load(self.file_paths[well_name]).tolist()  # Change to jpegs next!
 
         if anno is None:
             anno = self.get_sequence_info(seq_id)
