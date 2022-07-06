@@ -46,7 +46,6 @@ class Dream(BaseVideoDataset):
     def _build_sequence_list(self, vid_ids=None, split=None, root=None):
         if split is None or split == "train":
             # ltr_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
-            import pdb;pdb.set_trace()
             files = glob(os.path.join(root, "*"))
             files = [x for x in files if "." not in x]
             annotations = pandas.read_csv(os.path.join(root, "formatted_data.csv"))
@@ -70,7 +69,7 @@ class Dream(BaseVideoDataset):
                     for obj in objects:
                         coords = data[data.object == obj]
                         tracks.append(coords[["w", "h", "width", "height"]].values.tolist())
-                        files.append(images[coords.time.values - 1])
+                        files.append(images[coords.time.values])
 
                     # Store in a dict
                     # annos_files[well] = tracks
