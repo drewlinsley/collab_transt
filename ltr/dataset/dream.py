@@ -180,11 +180,9 @@ class Dream(BaseVideoDataset):
         if anno is None:
             anno = self.get_sequence_info(seq_id)
 
-        import pdb;pdb.set_trace()
         anno_frames = {}
         for key, value in anno.items():
             anno_frames[key] = [value[f_id, ...].clone() for f_id in frame_ids]
-        import pdb;pdb.set_trace()
         object_meta = OrderedDict({'object_class_name': obj_class,
                                    'motion_class': None,
                                    'major_class': None,
