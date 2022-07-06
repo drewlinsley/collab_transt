@@ -137,7 +137,7 @@ class Dream(BaseVideoDataset):
         # seq_name = self.sequence_list[seq_id]
         # class_name = "neuron"  # seq_name.split('-')[0]
         # vid_id = seq_name  # seq_name.split('-')[1]
-        return self.file_paths[seq_name]
+        return self.file_paths[seq_id]
         # return os.path.join(self.root, "cell_video_{}.npy".format(vid_id)), seq_name
         # return os.path.join(self.root, class_name, class_name + '-' + vid_id)
 
