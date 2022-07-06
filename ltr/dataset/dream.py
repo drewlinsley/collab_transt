@@ -84,6 +84,7 @@ class Dream(BaseVideoDataset):
         # sequence_list = {idx: k for idx, k in enumerate(annos_files.keys())}
         sequence_list = np.arange(len(annos_files))
         annos_files = np.asarray(annos_files)
+        import pdb;pdb.set_trace()
         file_paths = np.asarray(file_paths).astype(str)
         return sequence_list, annos_files, file_paths
 
