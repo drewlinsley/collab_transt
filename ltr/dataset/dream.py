@@ -134,22 +134,16 @@ class Dream(BaseVideoDataset):
         return target_visible
 
     def _get_sequence_path(self, seq_id):
-        seq_name = self.sequence_list[seq_id]
-        class_name = "neuron"  # seq_name.split('-')[0]
-        vid_id = seq_name  # seq_name.split('-')[1]
-
-        return os.path.join(self.root, "cell_video_{}.npy".format(vid_id)), seq_name
+        # seq_name = self.sequence_list[seq_id]
+        # class_name = "neuron"  # seq_name.split('-')[0]
+        # vid_id = seq_name  # seq_name.split('-')[1]
+        return self.file_paths[seq_name]
+        # return os.path.join(self.root, "cell_video_{}.npy".format(vid_id)), seq_name
         # return os.path.join(self.root, class_name, class_name + '-' + vid_id)
 
     def get_sequence_info(self, seq_id):
-        import pdb;pdb.set_trace()
-        seq_path, well_name = self._get_sequence_path(seq_id)
-        bboxs = self.annos[well_name]
-        # Grab a random object
-        n = len(bboxs)
-        if n == 0:
-            import pdb;pdb.set_trace()
-        bbox = bboxs[np.random.permutation(n)[0]]
+        seq_path = self._get_sequence_path(seq_id)
+        bbox = self.annos[seq_id]
         bbox = torch.tensor(bbox)
         # bbox = self._read_bb_anno(seq_path)
 
