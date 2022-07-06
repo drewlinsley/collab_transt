@@ -51,7 +51,7 @@ class Dream(BaseVideoDataset):
             annotations = pandas.read_csv(os.path.join(root, "formatted_data.csv"))
 
             # Filter by well
-            file_wells = [x.split(os.path.sep) for x in files]
+            file_wells = [x.split(os.path.sep)[-1] for x in files]
             annos_files = {}
             file_paths = {}
             for well, file in zip(file_wells, files):
