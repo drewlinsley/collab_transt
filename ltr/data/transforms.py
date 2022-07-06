@@ -121,6 +121,7 @@ class TransformBase:
 
     def _get_image_size(self, inputs):
         im = None
+        import pdb;pdb.set_trace()
         for var_name in ['image', 'mask']:
             if inputs.get(var_name) is not None:
                 im = inputs[var_name]
