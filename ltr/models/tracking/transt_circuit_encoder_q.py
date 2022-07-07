@@ -576,7 +576,7 @@ def transt_resnet50(settings):
     model.to(device)
     if settings.init_ckpt:
         print("Initializing from settings.init_ckpt")
-        model = load_weights(model, settings.init_ckpt, strict=False)  # Not strict so we can add to the model
+        model = load_weights(model, settings.init_ckpt, strict=True)  # Not strict so we can add to the model
     return model
 
 def transt_loss(settings):
