@@ -6,6 +6,8 @@ def parameters():
     params.debug = 0
     params.visualization = False
     params.use_gpu = True
-    params.net = NetWithBackbone(net_path='transt.pth',
+    # params.net = NetWithBackbone(net_path='transt.pth',
+    #                              use_gpu=params.use_gpu)
+    params.net = NetWithBackbone(net_path='/content/TransT/pytracking/networks/ckpt.pth.tar',
                                  use_gpu=params.use_gpu)
     return params
