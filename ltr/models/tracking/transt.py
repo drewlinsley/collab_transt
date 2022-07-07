@@ -242,9 +242,11 @@ def transt_resnet50(settings):
     )
     device = torch.device(settings.device)
     model.to(device)
-    # if hasattr(settings, "init_ckpt") and settings.init_ckpt:
-    #     print("Initializing from settings.init_ckpt")
-    #     model = load_weights(model, settings.init_ckpt, strict=True)
+    if hasattr(settings, "init_ckpt") and settings.init_ckpt:
+        print("*" * 50)
+        print("Initializing from settings.init_ckpt")
+        print("*" * 50)
+        model = load_weights(model, settings.init_ckpt, strict=True)
     return model
 
 def transt_loss(settings):

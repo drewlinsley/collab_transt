@@ -575,7 +575,9 @@ def transt_resnet50(settings):
     device = torch.device(settings.device)
     model.to(device)
     if settings.init_ckpt:
+        print("*" * 50)
         print("Initializing from settings.init_ckpt")
+        print("*" * 50)
         model = load_weights(model, settings.init_ckpt, strict=True)  # Not strict so we can add to the model
     return model
 
