@@ -46,7 +46,7 @@ def run(settings):
     settings.frame_multiplier = 6
     # settings.search_gap = 1  # Depreciated
     settings.pin_memory = False
-    settings.init_ckpt = "/content/TransT/pytracking/networks/transt_rnn.pth"  # "pytracking/networks/transt.pth"
+    settings.init_ckpt = False # "/content/TransT/pytracking/networks/transt_rnn.pth"  # "pytracking/networks/transt.pth"
 
     # Transformer
     settings.position_embedding = 'sine'
