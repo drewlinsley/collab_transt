@@ -35,7 +35,7 @@ def run(settings):
     settings.dim_feedforward = 2048
     settings.featurefusion_layers = 4
 
-    settings.init_ckpt = "/content/TransT/pytracking/networks/transt_rnn.pth"
+    settings.init_ckpt = "/content/TransT/pytracking/networks/transt.pth"
 
     # Train datasets
     # lasot_train = Lasot(settings.env.lasot_dir, split='train')
