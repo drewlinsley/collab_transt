@@ -40,10 +40,10 @@ def run(settings):
 
     settings.sequence_length = 10  # 20  # 64 NEXT  # Same as PT
     settings.sequence_length = 2  # 20  # 64 NEXT  # Same as PT
-    settings.sequence_length = 4  # 20  # 64 NEXT  # Same as PT
+    settings.sequence_length = 3  # 20  # 64 NEXT  # Same as PT
     settings.rand = True  # If True Linear interpolate across 2 center/scale jitters. If False each frame is jittered.
     settings.occlusion = False
-    settings.frame_multiplier = 2  # 6
+    settings.frame_multiplier = 6
     # settings.search_gap = 1  # Depreciated
     settings.pin_memory = False
     settings.init_ckpt = "/content/TransT/pytracking/networks/transt_rnn.pth"  # "pytracking/networks/transt.pth"
@@ -72,9 +72,10 @@ def run(settings):
     # transform_train = tfm.Transform(tfm.ToTensorAndJitter(0.2),
     #                                 tfm.Normalize(mean=settings.normalize_mean, std=settings.normalize_std))
     transform_train = tfm.Transform(tfm.ToTensorAndJitter(0.2),
-                                    # tfm.RandomHorizontalFlip(),
+                                    tfm.RandomHorizontalFlip(),
+                                    tfm.RandomVerticalFlip(),
                                     # tfm.RandomAffine(p_flip=0.5, max_scale=1.5),
-                                    # tfm.RandomBlur(1),
+                                    tfm.RandomBlur(1),
                                     tfm.Normalize(mean=settings.normalize_mean, std=settings.normalize_std))
 
     # Data processing to do on the training pairs
