@@ -12,7 +12,7 @@ def run(settings):
     # Most common settings are assigned in the settings struct
     settings.device = 'cuda'
     settings.description = 'TransT with default settings.'
-    settings.batch_size = 38 // 2
+    settings.batch_size = 8  # 38
     settings.num_workers = 4
     settings.multi_gpu = True
     settings.print_interval = 1
