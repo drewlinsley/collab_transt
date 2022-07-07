@@ -575,6 +575,7 @@ def transt_resnet50(settings):
     device = torch.device(settings.device)
     model.to(device)
     if settings.init_ckpt:
+        import pdb;pdb.set_trace()
         print("Initializing from settings.init_ckpt")
         model = load_weights(model, settings.init_ckpt, strict=True)  # Not strict so we can add to the model
     return model
