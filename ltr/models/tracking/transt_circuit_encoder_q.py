@@ -181,7 +181,6 @@ class TransT(nn.Module):
                 td_inh_1 = self.cnl(self.circuit_td_inh_1_init(res_hs))
             exc_1, td_inh_1 = self.circuit_td_1(pre_exc_1, excitation=res_hs, inhibition=td_inh_1, activ=self.cnl)
 
-
             # if t > 0:
             #     from matplotlib import pyplot as plt
             #     plt.subplot(151);plt.imshow(search[0, t].squeeze().permute(1, 2, 0).cpu());
@@ -547,6 +546,7 @@ class SetCriterion(nn.Module):
 
         return losses
 
+
 class MLP(nn.Module):
     """ Very simple multi-layer perceptron (also called FFN)"""
 
@@ -575,7 +575,6 @@ def transt_resnet50(settings):
     device = torch.device(settings.device)
     model.to(device)
     if settings.init_ckpt:
-        import pdb;pdb.set_trace()
         print("Initializing from settings.init_ckpt")
         model = load_weights(model, settings.init_ckpt, strict=True)  # Not strict so we can add to the model
     return model

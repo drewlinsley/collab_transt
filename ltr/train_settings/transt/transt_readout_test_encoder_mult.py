@@ -44,8 +44,9 @@ def run(settings):
     # settings.search_gap = 1  # Depreciated
     settings.pin_memory = False
     # settings.init_ckpt = "transt_rnn.pth"  # "pytracking/networks/transt.pth"
-    settings.init_ckpt = "/content/drive/MyDrive/tracking_cells/checkpoints/transt_rnn/ckpt.pth.tar"
-    
+    # settings.init_ckpt = "/content/drive/MyDrive/tracking_cells/checkpoints/transt_rnn/ckpt.pth.tar"
+    settings.init_ckpt = "/content/TransT/pytracking/networks/transt_rnn.pth"
+
     # Transformer
     settings.position_embedding = 'sine'
     settings.hidden_dim = 256
