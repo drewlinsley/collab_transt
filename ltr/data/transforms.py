@@ -295,6 +295,36 @@ class RandomHorizontalFlip(TransformBase):
         return mask
 
 
+class RandomVerticalFlip(TransformBase):
+    """Horizontally flip image randomly with a probability p."""
+    def __init__(self, probability = 0.5):
+        super().__init__()
+        self.probability = probability
+
+    def roll(self):
+        return random.random() < self.probability
+
+    def transform_image(self, image, do_flip):
+        if do_flip:
+            if torch.is_tensor(image):
+                return image.flip((1,))
+            return np.fliplr(image).copy()
+        return image
+
+    def transform_coords(self, coords, image_shape, do_flip):
+        if do_flip:
+            coords = coords.clone()
+            coords[0,:] = (image_shape[0] - 1) - coords[0,:]
+        return coords
+
+    def transform_mask(self, mask, do_flip):
+        if do_flip:
+            if torch.is_tensor(mask):
+                return mask.flip((-2,))
+            return np.fliplr(mask).copy()
+        return mask
+
+
 class Blur(TransformBase):
     """ Blur the image by applying a gaussian kernel with given sigma"""
     def __init__(self, sigma):
