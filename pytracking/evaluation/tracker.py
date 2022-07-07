@@ -361,7 +361,7 @@ class Tracker:
         assert os.path.isfile(videofilepath), "Invalid param {}".format(videofilepath)
         ", videofilepath must be a valid videofile"
 
-        output_boxes = []
+        output_boxes, output_confidence = [], []
 
         # cap = cv.VideoCapture(videofilepath)
         frames = np.load(videofilepath)
@@ -400,6 +400,7 @@ class Tracker:
                 tracker.initialize(frame, _build_init_info(init_state))
                 output_boxes.append(init_state)
                 break
+        output_confidence.append(1.)
         for trk in tracker.trackers.items():
             trk = trk[1]
             if hasattr(trk.net, "reset_states"):
@@ -417,13 +418,15 @@ class Tracker:
             # Draw box
             out = tracker.track(frame)
             state = [int(s) for s in out['target_bbox'][1]]
+            conf = out["max_score"][1]
             # If the tracker box confidence is < threshold, kill the tracker
-            if out["max_score"][1].max() < 0.85:
+            if out["max_score"][1].max() < 0.75:
                 return output_boxes
             print({k: max(v) for k, v in out["max_score"].items()}, state)
             output_boxes.append(state)
+            output_confidence.append(conf)
 
-        return output_boxes
+        return output_boxes, output_confidence
         # if save_results:
         #     if not os.path.exists(self.results_dir):
         #         os.makedirs(self.results_dir)
