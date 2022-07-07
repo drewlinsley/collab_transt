@@ -40,13 +40,13 @@ def run(settings):
 
     settings.sequence_length = 10  # 20  # 64 NEXT  # Same as PT
     settings.sequence_length = 2  # 20  # 64 NEXT  # Same as PT
-    settings.sequence_length = 3  # 20  # 64 NEXT  # Same as PT
+    settings.sequence_length = 4  # 20  # 64 NEXT  # Same as PT
     settings.rand = True  # If True Linear interpolate across 2 center/scale jitters. If False each frame is jittered.
     settings.occlusion = False
-    settings.frame_multiplier = 6
+    settings.frame_multiplier = 2  # 6
     # settings.search_gap = 1  # Depreciated
     settings.pin_memory = False
-    settings.init_ckpt = False # "/content/TransT/pytracking/networks/transt_rnn.pth"  # "pytracking/networks/transt.pth"
+    settings.init_ckpt = "/content/TransT/pytracking/networks/transt_rnn.pth"  # "pytracking/networks/transt.pth"
 
     # Transformer
     settings.position_embedding = 'sine'
