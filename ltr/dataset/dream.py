@@ -48,6 +48,9 @@ class Dream(BaseVideoDataset):
             # ltr_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
             files = glob(os.path.join(root, "*", "*"))  # dataset/wells
             files = [x for x in files if "." not in x]
+            datasets = [x.split(os.path.sep)[-2] for x in files]
+
+            # Load annos
             annotations = pandas.read_csv(os.path.join(root, "formatted_data_cat.csv"))
 
             # Add a datasets column
@@ -58,35 +61,32 @@ class Dream(BaseVideoDataset):
             # annos_files, file_paths = {}, {}
             annos_files, file_paths = [], []
 
-            datasets = [x.split(os.path.sep)[-2] for x in files]
-            unique_datasets = np.unique(datasets)
             import pdb;pdb.set_trace()
-            for dataset in unique_datasets:
-                for well, file in zip(file_wells, files):
-                    mask = np.logical_and(annotations.well == well, annotations.file == dataset)
-                    data = annotations[mask]
-                    images = glob(os.path.join(file, "*.jpg"))
-                    images = np.asarray(natsorted(images))
-                    if len(data):
-                        # Then sort by time
-                        data = data.sort_values("time")
+            for well, file, dataset in zip(file_wells, files, datasets):
+                mask = np.logical_and(annotations.well == well, annotations.file == dataset)
+                data = annotatons[mask]
+                images = glob(os.path.join(file, "*.jpg"))
+                images = np.asarray(natsorted(images))
+                if len(data):
+                    # Then sort by time
+                    data = data.sort_values("time")
 
-                        # Now package into a list of lists, with each list corresponding to a different tracked cell
-                        objects = data.object.unique()
-                        for obj in objects:
-                            coords = data[data.object == obj]
-                            annos_files.append(coords[["w", "h", "width", "height"]].values.tolist())
-                            file_paths.append(images[coords.time.values])
+                    # Now package into a list of lists, with each list corresponding to a different tracked cell
+                    objects = data.object.unique()
+                    for obj in objects:
+                        coords = data[data.object == obj]
+                        annos_files.append(coords[["w", "h", "width", "height"]].values.tolist())
+                        file_paths.append(images[coords.time.values])
 
-                        # Store in a dict
-                        # annos_files[well] = tracks
-                        # annos_files.append(tracks)
-                        # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
-                        # file_paths[well] = files
-                        # file_paths.append(files)
-                    else:
-                        # Remove this well from the dict
-                        pass
+                    # Store in a dict
+                    # annos_files[well] = tracks
+                    # annos_files.append(tracks)
+                    # sequence_list = pandas.read_csv(file_path, header=None, squeeze=True).values.tolist()
+                    # file_paths[well] = files
+                    # file_paths.append(files)
+                else:
+                    # Remove this well from the dict
+                    pass
 
         else:
             raise ValueError('Set either split_name or vid_ids.')
