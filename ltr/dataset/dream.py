@@ -64,7 +64,7 @@ class Dream(BaseVideoDataset):
             import pdb;pdb.set_trace()
             for well, file, dataset in zip(file_wells, files, datasets):
                 mask = np.logical_and(annotations.well == well, annotations.file == dataset)
-                data = annotatons[mask]
+                data = annotations[mask]
                 images = glob(os.path.join(file, "*.jpg"))
                 images = np.asarray(natsorted(images))
                 if len(data):
