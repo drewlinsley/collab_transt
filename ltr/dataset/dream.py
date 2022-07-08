@@ -61,7 +61,6 @@ class Dream(BaseVideoDataset):
             # annos_files, file_paths = {}, {}
             annos_files, file_paths = [], []
 
-            import pdb;pdb.set_trace()
             for well, file, dataset in zip(file_wells, files, datasets):
                 mask = np.logical_and(annotations.well == well, annotations.file == dataset)
                 data = annotations[mask]
