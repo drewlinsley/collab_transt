@@ -48,7 +48,10 @@ class Dream(BaseVideoDataset):
             # ltr_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..')
             files = glob(os.path.join(root, "*", "*"))  # dataset/wells
             files = [x for x in files if "." not in x]
-            annotations = pandas.read_csv(os.path.join(root, "formatted_data.csv"))
+            annotations = pandas.read_csv(os.path.join(root, "formatted_data_cat.csv"))
+
+            # Add a datasets column
+            an_data = annotations.values[:, 1]
 
             # Filter by well
             file_wells = [x.split(os.path.sep)[-1] for x in files]
