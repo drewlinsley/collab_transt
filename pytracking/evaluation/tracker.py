@@ -418,7 +418,7 @@ class Tracker:
             # Draw box
             out = tracker.track(frame)
             state = [int(s) for s in out['target_bbox'][1]]
-            conf = out["max_score"][1]
+            conf = max(out["max_score"][1])
             # If the tracker box confidence is < threshold, kill the tracker
             if out["max_score"][1].max() < 0.75:
                 return output_boxes, output_confidence
