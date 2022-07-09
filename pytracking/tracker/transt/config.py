@@ -23,6 +23,7 @@ __C.TRACK.PENALTY_K = 0.
 
 # Window influence
 __C.TRACK.WINDOW_INFLUENCE = 0.51
+__C.TRACK.WINDOW_INFLUENCE = 0.25
 
 # Exemplar size
 __C.TRACK.EXEMPLAR_SIZE = 128

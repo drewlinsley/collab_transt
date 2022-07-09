@@ -72,7 +72,7 @@ def run(settings):
     # transform_train = tfm.Transform(tfm.ToTensorAndJitter(0.2),
     #                                 tfm.Normalize(mean=settings.normalize_mean, std=settings.normalize_std))
     transform_train = tfm.Transform(tfm.ToTensorAndJitter(0.2),
-                                    tfm.RandomHorizontalFlip(),
+                                    # tfm.RandomHorizontalFlip(),
                                     # tfm.RandomVerticalFlip(),
                                     # tfm.RandomAffine(p_flip=0.5, max_scale=1.5),
                                     tfm.RandomBlur(1),
