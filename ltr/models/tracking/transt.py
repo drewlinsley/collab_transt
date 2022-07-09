@@ -82,10 +82,10 @@ class TransT(nn.Module):
         assert mask_template is not None
         hs = self.featurefusion_network(self.input_proj(src_template), mask_template, self.input_proj(src_search), mask_search, pos_template[-1], pos_search[-1])
 
-        outputs_class = self.new_class_embed(hs)
-        outputs_coord = self.new_bbox_embed(hs).sigmoid()
-        # outputs_class = self.class_embed(hs)
-        # outputs_coord = self.bbox_embed(hs).sigmoid()
+        # outputs_class = self.new_class_embed(hs)
+        # outputs_coord = self.new_bbox_embed(hs).sigmoid()
+        outputs_class = self.class_embed(hs)
+        outputs_coord = self.bbox_embed(hs).sigmoid()
         out = {'pred_logits': outputs_class[-1], 'pred_boxes': outputs_coord[-1]}
         return_activities = info.get("return_activities", False)
         if return_activities:
