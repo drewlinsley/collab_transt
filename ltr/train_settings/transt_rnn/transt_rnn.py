@@ -39,7 +39,7 @@ def run(settings):
     settings.scale_jitter_factor = {'search': 0.25, 'template': 0}  # 0.25
 
     settings.sequence_length = 10  # 20  # 64 NEXT  # Same as PT
-    settings.sequence_length = 2  # 20  # 64 NEXT  # Same as PT
+    # settings.sequence_length = 2  # 20  # 64 NEXT  # Same as PT
     # settings.sequence_length = 3  # 20  # 64 NEXT  # Same as PT
     settings.rand = True  # If True Linear interpolate across 2 center/scale jitters. If False each frame is jittered.
     settings.occlusion = False
